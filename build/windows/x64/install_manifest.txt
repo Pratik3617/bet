@@ -1,0 +1,16 @@
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/icudtl.dat
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/flutter_windows.dll
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.bin
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/assets/background.jpeg
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/FontManifest.json
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/fonts/AROneSans-Variable.ttf
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/fonts/Poppins-Black.ttf
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/fonts/YoungSerif-Regular.ttf
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/kernel_blob.bin
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/NOTICES
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/NOTICES.Z
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/packages/esc_pos_utils/resources/capabilities.json
+C:/Users/hp/Downloads/bet/bet/build/windows/x64/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag

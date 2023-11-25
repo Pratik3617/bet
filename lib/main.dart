@@ -30,11 +30,11 @@ void main() {
             bodyText2: customTextStyle,
           ),
         ),
-        home: const Home(),
+        home: const Login(),
         routes: {
           '/result': (_) => Result(),
           '/accounts': (_) => Accounts(),
-          '/login': (_) => const Login(),
+          '/home': (_) => const Home(),
         },
 
       ),
