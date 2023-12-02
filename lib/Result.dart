@@ -1,6 +1,7 @@
 import 'package:bet/Result/ResultLeft.dart';
 import 'package:bet/Result/ResultRight.dart';
 import 'package:flutter/material.dart';
+import 'package:bet/providers/ShowResult.dart';
 
 class Result extends StatelessWidget{
   @override

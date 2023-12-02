@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Home.dart';
 import 'Result.dart';
+import 'package:bet/providers/ShowResult.dart';
+import 'package:bet/providers/LoginProvider.dart';
 
 const TextStyle customTextStyle = TextStyle(
   fontFamily: 'SansSerif', // Use the font family you specified in pubspec.yaml
@@ -20,7 +22,14 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => GameSelector()
+        ),
+
+        ChangeNotifierProvider(
+          create: (context) => ShowResultProvider()
         ),
       ],
       child: MaterialApp(

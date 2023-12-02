@@ -128,10 +128,28 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "http",
+      "rootUri": "file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "image",
       "rootUri": "file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/image-3.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.18.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "js",
@@ -278,7 +296,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-11-25T13:42:26.957267Z",
+  "generated": "2023-12-01T15:37:57.910751Z",
   "generator": "pub",
   "generatorVersion": "3.2.0"
 }

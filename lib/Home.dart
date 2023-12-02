@@ -1,5 +1,6 @@
 import 'package:bet/Home/HomeMiddleOne.dart';
 import 'package:bet/Home/HomeRight.dart';
+import 'package:bet/Result.dart';
 import 'package:bet/providers/game_selector.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -13,9 +14,13 @@ import 'Home/HomeMiddleOne.dart';
 import 'Home/HomeMiddleTwo.dart';
 import 'Home/HomeRight.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:bet/providers/LoginProvider.dart';
+import './API/ShowResultAPI.dart';
+import 'package:bet/providers/ShowResult.dart';
+import 'package:intl/intl.dart';
 
 final TextStyle customTextStyle = TextStyle(
-  fontFamily: 'SansSerif', // Use the font family you specified in pubspec.yaml
+  fontFamily: 'SansSerif',
   fontSize: 16.0,
   fontWeight: FontWeight.normal,
 );
@@ -138,7 +143,45 @@ class _QrCodeState extends State<Home> {
     });
   }
 
+  List<dynamic> convertTimeFormat(List<dynamic> localDataList) {
+    for (int i = 0; i < localDataList.length; i++) {
+      String originalTime = localDataList[i][0].toString();
 
+      DateTime parsedTime = DateFormat('HH:mm:ss').parse(originalTime);
+
+      String formattedTime = DateFormat('hh:mm a').format(parsedTime);
+
+      localDataList[i][0] = formattedTime;
+    }
+
+    return localDataList;
+  }
+
+
+  Future<void> _TodayResult() async {
+    try {
+        DateTime today = DateTime.now();
+        DateTime currentDate = DateTime(today.year, today.month, today.day);
+        final response = await fetchDataForDate(currentDate);
+        if (response.containsKey('error')) {
+          context.read<ShowResultProvider>().updateResult([]);
+        } else {
+          List<dynamic> localDataList = response['result'];
+          List<dynamic> updatedDataList = convertTimeFormat(localDataList);
+
+          context.read<ShowResultProvider>().updateResult(updatedDataList);
+          
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Result(),
+            ),
+          );
+        }
+      } catch (e) {
+      print('Error during fetching todays data: $e');
+    }
+  }
 
 
   @override
@@ -169,8 +212,16 @@ class _QrCodeState extends State<Home> {
     String formattedDate = "${now1.day}-${now1.month}-${now1.year}";
     String formattedTime = "${now1.hour}:${now1.minute}:${now1.second}";
 
-    return Scaffold(
+    return MaterialApp(
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          elevation: 5, // Adjust the elevation to control the shadow intensity
+          shadowColor: const Color.fromARGB(255, 236, 230, 230), // Set the shadow color to white
+        ),
+      ),
+      home: Scaffold(
       appBar: AppBar(
+        leading: SizedBox.shrink(),
         toolbarHeight: 140.0,
         backgroundColor: Colors.blueGrey,
         actions: [
@@ -185,26 +236,33 @@ class _QrCodeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
-                              margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-                              width: 250.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                color: Colors.yellow[600],
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              child: const Center(
-                                child: Text("Terminal Name - DEEPAK ENTP",
+                      Consumer<UserProvider>(
+                        builder: (context, userProvider, child) {
+                          return Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+                                margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
+                                width: 250.0,
+                                height: 40.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.yellow[600],
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Terminal Name - ${userProvider.user?.username.toUpperCase() ?? ''}",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: "SansSerif",
-                                    )),
-                              )
-                          )
-                        ],
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                       Row(
                         children: [
@@ -230,7 +288,8 @@ class _QrCodeState extends State<Home> {
                                 child: Text('Next Game  ${times[_currentIndex]}',
                                     style: const TextStyle(
                                         fontFamily: "SansSerif",
-                                        color: Colors.black
+                                        color: Colors.black,
+                                        fontSize: 15
                                     )),
                               )
                           )
@@ -304,7 +363,8 @@ class _QrCodeState extends State<Home> {
                                 style: const TextStyle(
                                     fontFamily: "SansSerif",
                                     color: Colors.black,
-                                    letterSpacing: 2
+                                    letterSpacing: 2,
+                                    fontSize: 15
                                 )
                             )
                                 : Text(
@@ -368,9 +428,7 @@ class _QrCodeState extends State<Home> {
                         Padding(padding: EdgeInsets.all(5.0),
                           child: Button_G(
                               text: "RESULT" ,
-                              onPressed: () {
-                                Navigator.of(context).pushNamed('/result');
-                              }
+                              onPressed: _TodayResult,
                           ),
                         ),
                       ],
@@ -518,6 +576,7 @@ class _QrCodeState extends State<Home> {
           ],
         ),
       ),
+    ),
     );
   }
 

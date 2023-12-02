@@ -1,3 +1,5 @@
+import 'package:bet/Home.dart';
+import 'package:bet/Result/ResultDateForm.dart';
 import 'package:flutter/material.dart';
 
 class ResultLeft extends StatefulWidget{
@@ -8,7 +10,12 @@ class ResultLeft extends StatefulWidget{
 class _Left extends State<ResultLeft>{
 
   void goBack() {
-    Navigator.pop(context);
+    Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ),
+          );
   }
 
   DateTime _dateTime = DateTime.now();
@@ -39,45 +46,7 @@ class _Left extends State<ResultLeft>{
           letterSpacing: 2.0,
         ),),
 
-        Container(
-          padding: EdgeInsets.only(bottom: 5.0),
-          margin: EdgeInsets.symmetric(vertical: 70.0, horizontal: 0.0),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white,
-                width: 2.0
-              )
-            )
-          ),
-          child: SizedBox(
-            width: 180.0,
-            child: Text(_dateTime.toString().substring(0,10),style: TextStyle(
-                color: Colors.white,
-              fontSize: 20.0
-            ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: MaterialButton(
-            onPressed: _showDatePicker,
-            color: Colors.blue,
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text('Choose Date', style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                fontFamily: 'SansSerif'
-              ),),
-            ),
-          ),
-        ),
+        ResultDateForm(),
 
         Container(
           width: 100.0,
