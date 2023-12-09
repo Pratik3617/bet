@@ -19,6 +19,8 @@ class _LoginScreenState extends State<LoginForm> {
   Future<void> _login(BuildContext context) async {
     final username = _usernameController.text;
     final password = _passwordController.text;
+    print(username);
+    print(password);
 
     try {
       final response = await userLogin(username, password);

@@ -1,19 +1,16 @@
-import 'package:bet/Home/HomeMiddleOne.dart';
-import 'package:bet/Home/HomeRight.dart';
 import 'package:bet/Result.dart';
+import 'package:bet/TransactionList/Transaction.dart';
 import 'package:bet/providers/game_selector.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'Home/Button_G.dart';
+import 'Home/ButtonG.dart';
 import 'Home/Head_Input.dart';
 import 'Home/HomeLeft.dart';
 import 'Home/HomeBottom.dart';
 import 'Home/HomeMiddleOne.dart';
 import 'Home/HomeMiddleTwo.dart';
 import 'Home/HomeRight.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:bet/providers/LoginProvider.dart';
 import './API/ShowResultAPI.dart';
 import 'package:bet/providers/ShowResult.dart';
@@ -42,26 +39,16 @@ class _QrCodeState extends State<Home> {
   late Duration _timeRemaining = Duration();
   Duration _remainingTime = Duration();
   DateTime _currentTime = DateTime.now();
-  DateTime _targetTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 9, 30,);
+  // DateTime _targetTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 9, 30,);
 
-  List<String> times = [
-    "09:30:00 AM", "09:45:00 AM", "10:00:00 AM", "10:15:00 AM", "10:30:00 AM", "10:45:00 AM",
-    "11:00:00 AM", "11:15:00 AM", "11:30:00 AM", "11:45:00 AM", "12:00:00 PM", "12:15:00 PM", "12:30:00 PM",
-    "12:45:00 PM", "13:00:00 PM", "13:15:00 PM", "13:30:00 PM", "13:45:00 PM", "14:00:00 PM", "14:15:00 PM",
-    "14:30:00 PM", "14:45:00 PM", "15:00:00 PM", "15:15:00 PM", "15:30:00 PM", "15:45:00 PM", "16:00:00 PM",
-    "16:15:00 PM", "16:30:00 PM", "16:45:00 PM", "17:00:00 PM", "17:15:00 PM", "17:30:00 PM", "17:45:00 PM",
-    "18:00:00 PM", "18:15:00 PM", "18:30:00 PM", "18:45:00 PM", "19:00:00 PM", "19:15:00 PM", "19:30:00 PM",
-    "19:45:00 PM", "20:00:00 PM", "20:15:00 PM", "20:30:00 PM", "20:45:00 PM", "21:00:00 PM", "21:15:00 PM",
-    "21:30:00 PM", "21:45:00 PM", "22:00:00 PM",
-  ];
-  int _currentIndex = 0;
+  
 
   @override
   void initState() {
     super.initState();
     _startTimer();
     _startTimer2();
-    _updateTimer();
+    // _updateTimer();
     _timeRemaining = _calculateTimeUntil9AM();
     _timer4 = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       setState(() {
@@ -82,6 +69,19 @@ class _QrCodeState extends State<Home> {
     }
     return target.difference(now);
   }
+
+  //next game timings
+  List<String> times = [
+    "09:30:00 AM", "09:45:00 AM", "10:00:00 AM", "10:15:00 AM", "10:30:00 AM", "10:45:00 AM",
+    "11:00:00 AM", "11:15:00 AM", "11:30:00 AM", "11:45:00 AM", "12:00:00 PM", "12:15:00 PM", "12:30:00 PM",
+    "12:45:00 PM", "13:00:00 PM", "13:15:00 PM", "13:30:00 PM", "13:45:00 PM", "14:00:00 PM", "14:15:00 PM",
+    "14:30:00 PM", "14:45:00 PM", "15:00:00 PM", "15:15:00 PM", "15:30:00 PM", "15:45:00 PM", "16:00:00 PM",
+    "16:15:00 PM", "16:30:00 PM", "16:45:00 PM", "17:00:00 PM", "17:15:00 PM", "17:30:00 PM", "17:45:00 PM",
+    "18:00:00 PM", "18:15:00 PM", "18:30:00 PM", "18:45:00 PM", "19:00:00 PM", "19:15:00 PM", "19:30:00 PM",
+    "19:45:00 PM", "20:00:00 PM", "20:15:00 PM", "20:30:00 PM", "20:45:00 PM", "21:00:00 PM", "21:15:00 PM",
+    "21:30:00 PM", "21:45:00 PM", "22:00:00 PM",
+  ];
+  int _currentIndex = 0;
 
   void _startTimer2() {
     _timer3 = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -109,17 +109,18 @@ class _QrCodeState extends State<Home> {
     });
   }
 
-  void _updateTimer() {
-    _timer2 = Timer.periodic(const Duration(minutes: 15), (timer) {
-      setState(() {
-        _currentTime = DateTime.now();
-        if (_targetTime.isBefore(_currentTime)) {
-          _targetTime = _targetTime.add(const Duration(minutes: 15));
-        }
-      });
-    });
-  }
+  // void _updateTimer() {
+  //   _timer2 = Timer.periodic(const Duration(minutes: 15), (timer) {
+  //     setState(() {
+  //       _currentTime = DateTime.now();
+  //       if (_targetTime.isBefore(_currentTime)) {
+  //         _targetTime = _targetTime.add(const Duration(minutes: 15));
+  //       }
+  //     });
+  //   });
+  // }
 
+  // showing dynamic 15 minutes timer
   void _startTimer() {
     final now = DateTime.now();
     final next15Min = DateTime(now.year, now.month, now.day, now.hour, now.minute)
@@ -143,6 +144,7 @@ class _QrCodeState extends State<Home> {
     });
   }
 
+  //api task
   List<dynamic> convertTimeFormat(List<dynamic> localDataList) {
     for (int i = 0; i < localDataList.length; i++) {
       String originalTime = localDataList[i][0].toString();
@@ -170,14 +172,13 @@ class _QrCodeState extends State<Home> {
           List<dynamic> updatedDataList = convertTimeFormat(localDataList);
 
           context.read<ShowResultProvider>().updateResult(updatedDataList);
-          
-          Navigator.push(
+        }
+        Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => Result(),
             ),
           );
-        }
       } catch (e) {
       print('Error during fetching todays data: $e');
     }
@@ -204,10 +205,8 @@ class _QrCodeState extends State<Home> {
     String minutesStr = _timeRemaining.inMinutes.remainder(60).toString().padLeft(2, '0');
     String secondsStr = _timeRemaining.inSeconds.remainder(60).toString().padLeft(2, '0');
 
-    Duration timeLeft = _targetTime.difference(_currentTime);
 
     TextEditingController _editingController = TextEditingController(text: "");
-    String data = "Prateek";
     DateTime now1 = DateTime.now();
     String formattedDate = "${now1.day}-${now1.month}-${now1.year}";
     String formattedTime = "${now1.hour}:${now1.minute}:${now1.second}";
@@ -222,12 +221,12 @@ class _QrCodeState extends State<Home> {
       home: Scaffold(
       appBar: AppBar(
         leading: SizedBox.shrink(),
-        toolbarHeight: 140.0,
+        toolbarHeight: 134.0,
         backgroundColor: Colors.blueGrey,
         actions: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
+              padding: const EdgeInsets.fromLTRB(20.0, 2.0, 20.0, 2.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,7 +387,7 @@ class _QrCodeState extends State<Home> {
       ),
 
       body: Container(
-        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 5.0),
+        padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
 
         color: Colors.blueGrey,
         child: Column(
@@ -417,7 +416,7 @@ class _QrCodeState extends State<Home> {
                           child: Button_G(
                               text: "TRANS. LIST" ,
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/login');
+                                Navigator.of(context).pushNamed("/transaction");
                               }
                           ),
                         ),
@@ -531,11 +530,7 @@ class _QrCodeState extends State<Home> {
 
                               Button_G(
                                   text: "REDEEM" ,
-                                  onPressed: () {
-                                    setState(() {
-                                      data = _editingController.text;
-                                    });
-                                  }
+                                  onPressed: () {}
                               ),
 
                             ],
@@ -556,16 +551,19 @@ class _QrCodeState extends State<Home> {
                   const HomeLeft(),
 
                   Consumer<GameSelector>(
-                    builder: (context,value,child) {
-                      return HomeMiddleOne(matrixControllers: value.controllers,);
+                    builder: (context, value, child) {
+                      return HomeMiddleOne(
+                        matrixControllers: value.controllers,
+                        context: context,
+                      );
                     },
                   ),
-
-                  Consumer<GameSelector>(
-                    builder: (context,value,child) {
-                      return HomeMiddleTwo(controllers: value.controllers,);
-                    }
-                  ),
+                  Consumer<GameSelector>(builder: (context, value, child) {
+                    return HomeMiddleTwo(
+                      controllers: value.controllers,
+                      context: context,
+                    );
+                  }),
                   HomeRight(),
                 ],
               ),
@@ -579,6 +577,4 @@ class _QrCodeState extends State<Home> {
     ),
     );
   }
-
-
 }

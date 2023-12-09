@@ -7,7 +7,7 @@ class HomeBottom extends StatelessWidget {
 
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.only(top: 10.0),
+      margin: EdgeInsets.only(top: 5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -34,14 +34,14 @@ class HomeBottom extends StatelessWidget {
                     child: Text(" TODAY ", style: TextStyle(
                         fontFamily: "SansSerif",
                         letterSpacing: 2.0,
-                      fontSize: 20.0
+                      fontSize: 18.0
                     )),
                   ),
                 ),
               ],
             ),
           Padding(
-            padding: EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -73,7 +73,7 @@ class HomeBottom extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -105,7 +105,7 @@ class HomeBottom extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -137,7 +137,7 @@ class HomeBottom extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -169,7 +169,7 @@ class HomeBottom extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -259,7 +259,7 @@ class HomeBottom extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -345,7 +345,7 @@ class HomeBottom extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 10.0),
             child: Center(
 
               child: Text("N.1 GAMING", style: TextStyle(

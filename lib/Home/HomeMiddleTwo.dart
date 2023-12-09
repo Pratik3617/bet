@@ -1,18 +1,27 @@
+import 'package:bet/providers/game_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'PointsBlock.dart';
 
 class HomeMiddleTwo extends StatefulWidget {
   final List<List<TextEditingController>> controllers;
-  const HomeMiddleTwo({super.key, required this.controllers});
+  final BuildContext context;
+  const HomeMiddleTwo({
+    super.key,
+    required this.controllers,
+    required this.context,
+  });
 
   @override
-  _updatePoints createState() => _updatePoints();
+  _updatePoints createState() => _updatePoints(context: context);
 }
 
 class _updatePoints extends State<HomeMiddleTwo> {
-
+  final BuildContext context;
   int sum = 0;
+  List<int> sumList = List<int>.filled(20, 0);
+  _updatePoints({required this.context});
 
   @override
   void initState() {
@@ -28,14 +37,33 @@ class _updatePoints extends State<HomeMiddleTwo> {
   }
 
   _updateSum() {
-    int newSum = 0;
-    for (var row in widget.controllers) {
-      for (var controller in row) {
-        newSum += int.tryParse(controller.text) ?? 0;
+    List<int> newSum = List<int>.filled(20, 0);
+    final matrixList =
+        Provider.of<GameSelector>(context, listen: false).matrixList;
+
+    final selectedAlphabet =
+        Provider.of<GameSelector>(context, listen: false).selectedAlphabet;
+    for (int i = 0; i < 20; i++) {
+      if (selectedAlphabet == i) {
+        newSum[i] = 0;
+        for (int j = 0; j < 10; j++) {
+          for (int k = 0; k < 10; k++) {
+            newSum[i] += int.tryParse(widget.controllers[j][k].text) ?? 0;
+          }
+        }
+      } else {
+        for (int j = 0; j < 10; j++) {
+          for (int k = 0; k < 10; k++) {
+            newSum[i] += matrixList[i][j][k] ?? 0;
+          }
+        }
       }
     }
+
     setState(() {
-      sum = newSum * 2;
+      for (int i = 0; i < 20; i++) {
+        sumList[i] = newSum[i] * 2;
+      }
     });
   }
 
@@ -84,17 +112,14 @@ class _updatePoints extends State<HomeMiddleTwo> {
                 ),
               )
           ),
+
           const PointsBlock(text1: " A TO J", text2: " K TO T", color:Colors.white, textColor: Colors.black),
-          PointsBlock(text1: "$sum", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
-          PointsBlock(text1: "0", text2: "0", textColor: Colors.black),
+
+          for (int i = 0; i < 10; i++)
+            PointsBlock(
+                text1: "${sumList[i]}",
+                text2: "${sumList[i + 10]}",
+                textColor: Colors.black),
         ]
     );
   }

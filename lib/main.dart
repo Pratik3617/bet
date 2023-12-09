@@ -3,6 +3,7 @@ import 'package:bet/Home/Barcode.dart';
 import 'package:bet/Home/HomeRight.dart';
 import 'package:bet/Login/Login.dart';
 import 'package:bet/Result.dart';
+import 'package:bet/TransactionList/Transaction.dart';
 import 'package:bet/providers/game_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +45,7 @@ void main() {
           '/result': (_) => Result(),
           '/accounts': (_) => Accounts(),
           '/home': (_) => const Home(),
+          '/transaction': (_) => Transaction(),
         },
 
       ),

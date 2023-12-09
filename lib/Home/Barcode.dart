@@ -1,4 +1,4 @@
-import 'package:bet/Home/Button_G.dart';
+import 'package:bet/Home/ButtonG.dart';
 import 'package:bet/Home/Head_Input.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';

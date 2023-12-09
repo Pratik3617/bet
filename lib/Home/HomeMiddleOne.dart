@@ -6,20 +6,25 @@ import 'Input_Box.dart';
 import 'Button.dart';
 
 class HomeMiddleOne extends StatefulWidget {
-  const HomeMiddleOne({super.key, required this.matrixControllers});
+  const HomeMiddleOne({
+    super.key,
+    required this.matrixControllers,
+    required this.context,
+  });
   final List<List<TextEditingController>> matrixControllers;
+  final BuildContext context;
 
   @override
-  RandomNumberGenerator createState() => RandomNumberGenerator();
+  RandomNumberGenerator createState() => RandomNumberGenerator(context: context);
 }
 
 class RandomNumberGenerator extends State<HomeMiddleOne> {
-
+  final BuildContext context;
   final List<TextEditingController> rowControllers = List.generate(10, (index) => TextEditingController());
   final List<TextEditingController> columnControllers = List.generate(10, (index) => TextEditingController());
 
   // final List<List<TextEditingController>> matrixControllers = List.generate(10, (i) => List.generate(10, (j) => TextEditingController()));
-
+  RandomNumberGenerator({required this.context});
 
   @override
   void initState() {
@@ -33,6 +38,18 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
       columnControllers[i].addListener(() {
         _updateMatrixForColumn(i);
       });
+    }
+    _fillDisplayMatrix();
+  }
+
+  _fillDisplayMatrix() {
+    final matrixList =
+        Provider.of<GameSelector>(context, listen: false).matrixList;
+
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        widget.matrixControllers[i][j].text = matrixList[0][i][j].toString();
+      }
     }
   }
 
@@ -54,7 +71,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
 
   @override
   Widget build(BuildContext context) {
-    final select = Provider.of<GameSelector>(context);
+    final select = Provider.of<GameSelector>(context, listen: false);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -425,8 +442,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                           controller: rowControllers[i],
                         ),
                       );
-                    }
-                    else {
+                    } else {
                       return Container(
                         margin: const EdgeInsets.fromLTRB(0, 3, 6, 3),
                         child: Input_Box(

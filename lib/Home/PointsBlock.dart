@@ -37,7 +37,7 @@ class PointsBlock extends StatelessWidget {
                     text1,
                     style: TextStyle(
                       fontFamily: "SansSerif",
-                      fontSize: 18.0,
+                      fontSize: 17.0,
                       fontWeight: FontWeight.bold,
                       color: textColor
                     ),
@@ -65,7 +65,7 @@ class PointsBlock extends StatelessWidget {
                     text2,
                     style: TextStyle(
                       fontFamily: "SansSerif",
-                      fontSize: 18.0,
+                      fontSize: 17.0,
                       fontWeight: FontWeight.bold,
                       color: textColor
                   ),
