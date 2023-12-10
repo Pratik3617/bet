@@ -24,14 +24,10 @@ class _InputPageState extends State<HomeLeft> {
             margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
             decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(
-                    color: Colors.yellow,
-                    width: 2.0
-                ),
-                borderRadius : BorderRadius.circular(2.0)
-            ),
+                border: Border.all(color: Colors.yellow, width: 2.0),
+                borderRadius: BorderRadius.circular(2.0)),
             child: Consumer<GameSelector>(
-              builder: (context, select,child) {
+              builder: (context, select, child) {
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 2.0, 7.0, 2.0),
                   child: Row(
@@ -40,34 +36,32 @@ class _InputPageState extends State<HomeLeft> {
                       Checkbox(
                           value: select.atIsChecked,
                           checkColor: Colors.black,
-                          onChanged: (bool? value) => select.toggleAT(value),
-                          fillColor: MaterialStateProperty.all<Color>(Colors.white)
-                      ),
-                      const Text("A TO T", style: TextStyle(
-                          fontFamily: "SansSerif",
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black
-                        ),
+                          onChanged: (bool? value) {
+                            select.toggleAT(value);
+                            
+                          },
+                          fillColor:
+                              MaterialStateProperty.all<Color>(Colors.white)),
+                      const Text(
+                        "A TO T",
+                        style: TextStyle(
+                            fontFamily: "SansSerif",
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       )
                     ],
                   ),
                 );
               },
-            )
-        ),
-
+            )),
         Container(
           width: 190.0,
           height: 38.0,
           margin: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 0.0),
           decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.white,
-                width: 2.0
-              ),
-              borderRadius : BorderRadius.circular(2.0)
-          ),
+              border: Border.all(color: Colors.white, width: 2.0),
+              borderRadius: BorderRadius.circular(2.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,29 +71,27 @@ class _InputPageState extends State<HomeLeft> {
                 height: 38.0,
                 alignment: Alignment.center,
                 color: Colors.green,
-                child: const Text(
-                  "Pg. Up",
-                  style: TextStyle(
-                    color: Colors.white,
-                  )
-                ),
+                child: const Text("Pg. Up",
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
               ),
               Container(
                 width: 93.0,
                 height: 38.0,
                 alignment: Alignment.center,
                 color: Colors.yellow[600],
-                child: const Text("Pg. Down", style: TextStyle(
-                  color: Colors.white,
-                )),
+                child: const Text("Pg. Down",
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
               ),
             ],
           ),
         ),
-
-        for(int i=0; i<10; ++i)...[
+        for (int i = 0; i < 10; ++i) ...[
           Consumer<GameSelector>(
-            builder: (context,select,child) {
+            builder: (context, select, child) {
               return Container(
                 width: 190.0,
                 height: 38.0,
@@ -110,25 +102,29 @@ class _InputPageState extends State<HomeLeft> {
                     Check_Button(
                         width: 93.0,
                         height: 38.0,
-                        isChecked: select.atIsChecked || select.ajIsChecked? true : select.activeMatrix == select.checkbox[i],
+                        isChecked: select.atIsChecked || select.ajIsChecked
+                            ? true
+                            : select.activeMatrix == select.checkbox[i],
                         text: select.checkbox[i],
                         onChange: (bool? value) {
                           // activeMatrix.clear();
                           select.activeMatrix = select.checkbox[i];
-                          select.handleCheckboxChange(select.checkbox[i], value);
-                        }
-                    ),
+                          select.handleCheckboxChange(
+                              select.checkbox[i], value);
+                        }),
                     Check_Button(
                         width: 93.0,
                         height: 38.0,
-                        isChecked: select.atIsChecked || select.ktIsChecked? true : select.activeMatrix == select.checkbox[i + 10],
-                        text: select.checkbox[i+10],
+                        isChecked: select.atIsChecked || select.ktIsChecked
+                            ? true
+                            : select.activeMatrix == select.checkbox[i + 10],
+                        text: select.checkbox[i + 10],
                         onChange: (bool? value) {
                           // activeMatrix.clear();
                           select.activeMatrix = select.checkbox[i + 10];
-                          select.handleCheckboxChange(select.checkbox[i + 10], value);
-                        }
-                    ),
+                          select.handleCheckboxChange(
+                              select.checkbox[i + 10], value);
+                        }),
                   ],
                 ),
               );

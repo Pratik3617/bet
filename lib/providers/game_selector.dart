@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 class GameSelector with ChangeNotifier {
@@ -136,22 +138,42 @@ class GameSelector with ChangeNotifier {
   }
 
   void toggleKT(bool? value) {
+    if (value ?? false) {
+    } else {}
     ktIsChecked = value!;
     notifyListeners();
   }
 
   void toggleAll(bool? value) {
-    allIsChecked = value!;
+    if (value == true) {
+      allIsChecked = value!;
+      evenIsChecked = !value;
+      oddIsChecked = !value;
+    } else {
+      allIsChecked = value!;
+    }
     notifyListeners();
   }
 
   void toggleEven(bool? value) {
-    evenIsChecked = value!;
+    if (value == true) {
+      allIsChecked = !value!;
+      evenIsChecked = value;
+      oddIsChecked = !value;
+    } else {
+      evenIsChecked = value!;
+    }
     notifyListeners();
   }
 
   void toggleOdd(bool? value) {
-    oddIsChecked = value!;
+    if (value == true) {
+      allIsChecked = !value!;
+      evenIsChecked = !value;
+      oddIsChecked = value;
+    } else {
+      oddIsChecked = value!;
+    }
     notifyListeners();
   }
 
@@ -186,4 +208,11 @@ class GameSelector with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void handleMultipleCheckboxChange(
+      List<String> keys, bool? value, SelectionType type) {
+    notifyListeners();
+  }
 }
+
+enum SelectionType { ATOT, ATOJ, KTOT }
