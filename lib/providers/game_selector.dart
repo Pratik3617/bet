@@ -122,8 +122,8 @@ class GameSelector with ChangeNotifier {
     notifyListeners();
   }
 
-  List<List<List<int?>>> matrixList = List.generate(
-      20, (index) => List.generate(10, (i) => List.generate(10, (j) => 0)));
+  List<List<List<String?>>> matrixList = List.generate(
+      20, (index) => List.generate(10, (i) => List.generate(10, (j) => "")));
 
   void toggleAT(bool? value) {
     atIsChecked = value!;
@@ -165,7 +165,7 @@ class GameSelector with ChangeNotifier {
       for (int j = 0; j < 10; j++) {
         String? textValue = controllers[i][j].text;
         matrixList[selectedAlphabet][i][j] =
-            textValue != null ? int.tryParse(textValue) : null;
+            textValue != null ? textValue : null;
       }
     }
     // Set all other checkboxes to false

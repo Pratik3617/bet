@@ -40,7 +40,7 @@ void main() {
             bodyText2: customTextStyle,
           ),
         ),
-        home: const Login(),
+        home: const Home(),
         routes: {
           '/result': (_) => Result(),
           '/accounts': (_) => Accounts(),

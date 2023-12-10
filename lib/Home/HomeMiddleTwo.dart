@@ -54,7 +54,7 @@ class _updatePoints extends State<HomeMiddleTwo> {
       } else {
         for (int j = 0; j < 10; j++) {
           for (int k = 0; k < 10; k++) {
-            newSum[i] += matrixList[i][j][k] ?? 0;
+            newSum[i] += int.tryParse(matrixList[i][j][k] ?? "0") ?? 0;
           }
         }
       }
@@ -80,47 +80,41 @@ class _updatePoints extends State<HomeMiddleTwo> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children : [
-          Container(
-              width: 150.0,
-              height: 40.0,
-              margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
-              decoration: BoxDecoration(
-                  color: Colors.yellow[600],
-                  border: Border.all(
-                      color: Colors.white,
-                      width: 2.0
-                  ),
-                  borderRadius : BorderRadius.circular(2.0)
-              ),
-              child: const Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 2.0, 7.0, 2.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Points", style: TextStyle(
-                        fontFamily: "SansSerif",
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white
-                    ),
-                    )
-                  ],
-                ),
-              )
-          ),
-
-          const PointsBlock(text1: " A TO J", text2: " K TO T", color:Colors.white, textColor: Colors.black),
-
-          for (int i = 0; i < 10; i++)
-            PointsBlock(
-                text1: "${sumList[i]}",
-                text2: "${sumList[i + 10]}",
-                textColor: Colors.black),
-        ]
-    );
+    return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+      Container(
+          width: 150.0,
+          height: 40.0,
+          margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
+          decoration: BoxDecoration(
+              color: Colors.yellow[600],
+              border: Border.all(color: Colors.white, width: 2.0),
+              borderRadius: BorderRadius.circular(2.0)),
+          child: const Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 2.0, 7.0, 2.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Points",
+                  style: TextStyle(
+                      fontFamily: "SansSerif",
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                )
+              ],
+            ),
+          )),
+      const PointsBlock(
+          text1: " A TO J",
+          text2: " K TO T",
+          color: Colors.white,
+          textColor: Colors.black),
+      for (int i = 0; i < 10; i++)
+        PointsBlock(
+            text1: "${sumList[i]}",
+            text2: "${sumList[i + 10]}",
+            textColor: Colors.black),
+    ]);
   }
 }
