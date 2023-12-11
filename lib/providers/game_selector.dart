@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 class GameSelector with ChangeNotifier {
   String activeMatrix = 'A';
+  String prevActiveMatrix = 'A';
+
   Map<String, bool> checkBoxValues = {
-    'A': false,
+    'A': true,
     'B': false,
     'C': false,
     'D': false,
@@ -127,35 +129,141 @@ class GameSelector with ChangeNotifier {
   List<List<List<String?>>> matrixList = List.generate(
       20, (index) => List.generate(10, (i) => List.generate(10, (j) => "")));
 
+  setCheckBoxes() {
+    if (prevActiveMatrix.length == 1) {
+      checkBoxValues[prevActiveMatrix] = true;
+    } else if (prevActiveMatrix == "AT") {
+      atIsChecked = true;
+      checkBoxValues.forEach((k, v) => checkBoxValues[k] = true);
+    } else if (prevActiveMatrix == "AJ") {
+      ajIsChecked = true;
+      checkBoxValues.forEach((k, v) {
+        if (k == "A" ||
+            k == "B" ||
+            k == "C" ||
+            k == "D" ||
+            k == "E" ||
+            k == "F" ||
+            k == "G" ||
+            k == "H" ||
+            k == "I" ||
+            k == "J") {
+          checkBoxValues[k] = true;
+        }
+      });
+    } else if (prevActiveMatrix == "KT") {
+      ktIsChecked = true;
+      checkBoxValues.forEach((k, v) {
+        if (k == "K" ||
+            k == "L" ||
+            k == "M" ||
+            k == "N" ||
+            k == "O" ||
+            k == "P" ||
+            k == "Q" ||
+            k == "R" ||
+            k == "S" ||
+            k == "T") {
+          checkBoxValues[k] = true;
+        }
+      });
+    }
+  }
+
+  SelectionType getSelectionType() {
+    if (prevActiveMatrix.length == 1) {
+      return SelectionType.SINGLE;
+    } else if (prevActiveMatrix == "AT") {
+      return SelectionType.ATOT;
+    } else if (prevActiveMatrix == "AJ") {
+      return SelectionType.ATOJ;
+    } else if (prevActiveMatrix == "KT") {
+      return SelectionType.KTOT;
+    }
+    return SelectionType.SINGLE;
+  }
+
   void toggleAT(bool? value) {
     if (value == true) {
+      prevActiveMatrix = activeMatrix;
+      activeMatrix = "AT";
       atIsChecked = value!;
       ajIsChecked = !value;
       ktIsChecked = !value;
+      checkBoxValues.forEach((k, v) => checkBoxValues[k] = true);
+      handleMultipleCheckboxChange(value, SelectionType.ATOT);
     } else {
+      checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
+      activeMatrix = prevActiveMatrix;
+      setCheckBoxes();
       atIsChecked = value!;
+      handleMultipleCheckboxChange(value, getSelectionType());
     }
     notifyListeners();
   }
 
   void toggleAJ(bool? value) {
     if (value == true) {
+      prevActiveMatrix = activeMatrix;
+      activeMatrix = "AJ";
       atIsChecked = !value!;
       ajIsChecked = value;
       ktIsChecked = !value;
+      checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
+      checkBoxValues.forEach((k, v) {
+        if (k == "A" ||
+            k == "B" ||
+            k == "C" ||
+            k == "D" ||
+            k == "E" ||
+            k == "F" ||
+            k == "G" ||
+            k == "H" ||
+            k == "I" ||
+            k == "J") {
+          checkBoxValues[k] = true;
+        }
+      });
+      handleMultipleCheckboxChange(value, SelectionType.ATOJ);
     } else {
+      checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
+      activeMatrix = prevActiveMatrix;
+      setCheckBoxes();
       ajIsChecked = value!;
+      handleMultipleCheckboxChange(value, getSelectionType());
     }
     notifyListeners();
   }
 
   void toggleKT(bool? value) {
     if (value == true) {
+      prevActiveMatrix = activeMatrix;
+      activeMatrix = "KT";
       atIsChecked = !value!;
       ajIsChecked = !value;
       ktIsChecked = value;
+      checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
+      checkBoxValues.forEach((k, v) {
+        if (k == "K" ||
+            k == "L" ||
+            k == "M" ||
+            k == "N" ||
+            k == "O" ||
+            k == "P" ||
+            k == "Q" ||
+            k == "R" ||
+            k == "S" ||
+            k == "T") {
+          checkBoxValues[k] = true;
+        }
+      });
+      handleMultipleCheckboxChange(value, SelectionType.KTOT);
     } else {
+      checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
+      activeMatrix = prevActiveMatrix;
+      setCheckBoxes();
       ktIsChecked = value!;
+      handleMultipleCheckboxChange(value, getSelectionType());
     }
     notifyListeners();
   }
@@ -224,22 +332,90 @@ class GameSelector with ChangeNotifier {
     notifyListeners();
   }
 
-  void handleMultipleCheckboxChange(bool? value, SelectionType type) {
+  void handleMultipleCheckboxChange(bool value, SelectionType type) {
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        String? textValue = controllers[i][j].text;
+        if (prevActiveMatrix.length == 1) {
+          matrixList[checkbox.indexOf(prevActiveMatrix)][i][j] =
+              textValue != "" ? textValue : "";
+        } else if (prevActiveMatrix == "AT") {
+          for (int k = 0; k < 20; k++) {
+            matrixList[k][i][j] = textValue != "" ? textValue : "";
+          }
+        } else if (prevActiveMatrix == "AJ") {
+          for (int k = 0; k < 10; k++) {
+            matrixList[k][i][j] = textValue != "" ? textValue : "";
+          }
+        } else if (prevActiveMatrix == "KT") {
+          for (int k = 10; k < 20; k++) {
+            matrixList[k][i][j] = textValue != "" ? textValue : "";
+          }
+        }
+      }
+    }
+    // if (value) {
     switch (type) {
+      case SelectionType.SINGLE:
+        {
+          for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+              controllers[i][j].text =
+                  matrixList[checkbox.indexOf(prevActiveMatrix)][i][j]
+                      .toString();
+            }
+          }
+        }
+        break;
       case SelectionType.ATOT:
-        {}
+        {
+          for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+              for (int k = 0; k < 20; k++) {
+                controllers[i][j].text = matrixList[k][i][j].toString();
+              }
+            }
+          }
+        }
         break;
       case SelectionType.ATOJ:
-        {}
+        {
+          for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+              for (int k = 0; k < 10; k++) {
+                controllers[i][j].text = matrixList[k][i][j].toString();
+              }
+            }
+          }
+        }
         break;
       case SelectionType.KTOT:
-        {}
+        {
+          for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+              for (int k = 10; k < 20; k++) {
+                controllers[i][j].text = matrixList[k][i][j].toString();
+              }
+            }
+          }
+        }
         break;
-      default:
-        {}
     }
+    // } else {
+    //   if (activeMatrix.length == 1) {
+    //     selectedAlphabet = checkbox.indexOf(activeMatrix);
+    //     for (int i = 0; i < 10; i++) {
+    //       for (int j = 0; j < 10; j++) {
+    //         controllers[i][j].text =
+    //             matrixList[selectedAlphabet][i][j].toString();
+    //       }
+    //     }
+    //   } else if (activeMatrix == "AT") {
+    //   } else if (activeMatrix == "AJ") {
+    //   } else if (activeMatrix == "KT") {}
+    // }
     notifyListeners();
   }
 }
 
-enum SelectionType { ATOT, ATOJ, KTOT }
+enum SelectionType { SINGLE, ATOT, ATOJ, KTOT }

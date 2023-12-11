@@ -41,10 +41,15 @@ class _updatePoints extends State<HomeMiddleTwo> {
     final matrixList =
         Provider.of<GameSelector>(context, listen: false).matrixList;
 
+    final checkBoxValues =
+        Provider.of<GameSelector>(context, listen: false).checkBoxValues;
+
+    final checkbox = Provider.of<GameSelector>(context, listen: false).checkbox;
+
     final selectedAlphabet =
         Provider.of<GameSelector>(context, listen: false).selectedAlphabet;
     for (int i = 0; i < 20; i++) {
-      if (selectedAlphabet == i) {
+      if (checkBoxValues[checkbox[i]] == true) {
         newSum[i] = 0;
         for (int j = 0; j < 10; j++) {
           for (int k = 0; k < 10; k++) {

@@ -38,7 +38,6 @@ class _InputPageState extends State<HomeLeft> {
                           checkColor: Colors.black,
                           onChanged: (bool? value) {
                             select.toggleAT(value);
-                            
                           },
                           fillColor:
                               MaterialStateProperty.all<Color>(Colors.white)),
@@ -108,6 +107,12 @@ class _InputPageState extends State<HomeLeft> {
                         text: select.checkbox[i],
                         onChange: (bool? value) {
                           // activeMatrix.clear();
+                          if (select.atIsChecked ||
+                              select.ajIsChecked ||
+                              select.ktIsChecked) {
+                            return;
+                          }
+                          select.prevActiveMatrix = select.activeMatrix;
                           select.activeMatrix = select.checkbox[i];
                           select.handleCheckboxChange(
                               select.checkbox[i], value);
@@ -120,7 +125,13 @@ class _InputPageState extends State<HomeLeft> {
                             : select.activeMatrix == select.checkbox[i + 10],
                         text: select.checkbox[i + 10],
                         onChange: (bool? value) {
+                          if (select.atIsChecked ||
+                              select.ajIsChecked ||
+                              select.ktIsChecked) {
+                            return;
+                          }
                           // activeMatrix.clear();
+                          select.prevActiveMatrix = select.activeMatrix;
                           select.activeMatrix = select.checkbox[i + 10];
                           select.handleCheckboxChange(
                               select.checkbox[i + 10], value);
