@@ -83,11 +83,28 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
   }
 
   _updateMatrixForColumn(int columnIndex) {
+    final c = Provider.of<GameSelector>(context, listen: false);
     for (int i = 0; i < 10; i++) {
-      widget.matrixControllers[i][columnIndex].text =
-          ((int.tryParse(rowControllers[i].text) ?? 0) +
-                  (int.tryParse(columnControllers[columnIndex].text) ?? 0))
-              .toString();
+      if (c.evenIsChecked) {
+        if (i % 2 == 0) {
+          widget.matrixControllers[i][columnIndex].text =
+              ((int.tryParse(rowControllers[i].text) ?? 0) +
+                      (int.tryParse(columnControllers[columnIndex].text) ?? 0))
+                  .toString();
+        }
+      } else if (c.oddIsChecked) {
+        if (i % 2 != 0) {
+          widget.matrixControllers[i][columnIndex].text =
+              ((int.tryParse(rowControllers[i].text) ?? 0) +
+                      (int.tryParse(columnControllers[columnIndex].text) ?? 0))
+                  .toString();
+        }
+      } else {
+        widget.matrixControllers[i][columnIndex].text =
+            ((int.tryParse(rowControllers[i].text) ?? 0) +
+                    (int.tryParse(columnControllers[columnIndex].text) ?? 0))
+                .toString();
+      }
     }
   }
 
