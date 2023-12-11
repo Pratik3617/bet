@@ -128,19 +128,35 @@ class GameSelector with ChangeNotifier {
       20, (index) => List.generate(10, (i) => List.generate(10, (j) => "")));
 
   void toggleAT(bool? value) {
-    atIsChecked = value!;
+    if (value == true) {
+      atIsChecked = value!;
+      ajIsChecked = !value;
+      ktIsChecked = !value;
+    } else {
+      atIsChecked = value!;
+    }
     notifyListeners();
   }
 
   void toggleAJ(bool? value) {
-    ajIsChecked = value!;
+    if (value == true) {
+      atIsChecked = !value!;
+      ajIsChecked = value;
+      ktIsChecked = !value;
+    } else {
+      ajIsChecked = value!;
+    }
     notifyListeners();
   }
 
   void toggleKT(bool? value) {
-    if (value ?? false) {
-    } else {}
-    ktIsChecked = value!;
+    if (value == true) {
+      atIsChecked = !value!;
+      ajIsChecked = !value;
+      ktIsChecked = value;
+    } else {
+      ktIsChecked = value!;
+    }
     notifyListeners();
   }
 
@@ -186,8 +202,7 @@ class GameSelector with ChangeNotifier {
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
         String? textValue = controllers[i][j].text;
-        matrixList[selectedAlphabet][i][j] =
-            textValue != null ? textValue : null;
+        matrixList[selectedAlphabet][i][j] = textValue != "" ? textValue : "";
       }
     }
     // Set all other checkboxes to false
@@ -209,8 +224,20 @@ class GameSelector with ChangeNotifier {
     notifyListeners();
   }
 
-  void handleMultipleCheckboxChange(
-      List<String> keys, bool? value, SelectionType type) {
+  void handleMultipleCheckboxChange(bool? value, SelectionType type) {
+    switch (type) {
+      case SelectionType.ATOT:
+        {}
+        break;
+      case SelectionType.ATOJ:
+        {}
+        break;
+      case SelectionType.KTOT:
+        {}
+        break;
+      default:
+        {}
+    }
     notifyListeners();
   }
 }
