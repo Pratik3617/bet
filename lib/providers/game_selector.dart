@@ -401,19 +401,6 @@ class GameSelector with ChangeNotifier {
         }
         break;
     }
-    // } else {
-    //   if (activeMatrix.length == 1) {
-    //     selectedAlphabet = checkbox.indexOf(activeMatrix);
-    //     for (int i = 0; i < 10; i++) {
-    //       for (int j = 0; j < 10; j++) {
-    //         controllers[i][j].text =
-    //             matrixList[selectedAlphabet][i][j].toString();
-    //       }
-    //     }
-    //   } else if (activeMatrix == "AT") {
-    //   } else if (activeMatrix == "AJ") {
-    //   } else if (activeMatrix == "KT") {}
-    // }
     notifyListeners();
   }
 }
