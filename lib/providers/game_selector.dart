@@ -1,14 +1,23 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class TimeState {
+  bool active;
+  bool selected;
+
+  TimeState({required this.active, required this.selected});
+}
 
 class GameSelector with ChangeNotifier {
   String activeMatrix = 'A';
   String prevActiveMatrix = 'A';
 
-  bool selectedToday = true;
-
+  bool? selectedToday;
+  bool showNextDayTimes = false;
   bool showTimes = false;
+  bool allTimesSelected = false;
 
   Map<String, bool> checkBoxValues = {
     'A': true,
@@ -56,113 +65,130 @@ class GameSelector with ChangeNotifier {
     "T"
   ];
 
-  Map<String, bool> timesValues = {
-    "09:30:00 AM": false,
-    "09:45:00 AM": false,
-    "10:00:00 AM": false,
-    "10:15:00 AM": false,
-    "10:30:00 AM": false,
-    "10:45:00 AM": false,
-    "11:00:00 AM": false,
-    "11:15:00 AM": false,
-    "11:30:00 AM": false,
-    "11:45:00 AM": false,
-    "12:00:00 PM": false,
-    "12:15:00 PM": false,
-    "12:30:00 PM": false,
-    "12:45:00 PM": false,
-    "13:00:00 PM": false,
-    "13:15:00 PM": false,
-    "13:30:00 PM": false,
-    "13:45:00 PM": false,
-    "14:00:00 PM": false,
-    "14:15:00 PM": false,
-    "14:30:00 PM": false,
-    "14:45:00 PM": false,
-    "15:00:00 PM": false,
-    "15:15:00 PM": false,
-    "15:30:00 PM": false,
-    "15:45:00 PM": false,
-    "16:00:00 PM": false,
-    "16:15:00 PM": false,
-    "16:30:00 PM": false,
-    "16:45:00 PM": false,
-    "17:00:00 PM": false,
-    "17:15:00 PM": false,
-    "17:30:00 PM": false,
-    "17:45:00 PM": false,
-    "18:00:00 PM": false,
-    "18:15:00 PM": false,
-    "18:30:00 PM": false,
-    "18:45:00 PM": false,
-    "19:00:00 PM": false,
-    "19:15:00 PM": false,
-    "19:30:00 PM": false,
-    "19:45:00 PM": false,
-    "20:00:00 PM": false,
-    "20:15:00 PM": false,
-    "20:30:00 PM": false,
-    "20:45:00 PM": false,
-    "21:00:00 PM": false,
-    "21:15:00 PM": false,
-    "21:30:00 PM": false,
-    "21:45:00 PM": false,
-    "22:00:00 PM": false
+  Map<String, TimeState> timesValues = {
+    "09:30 AM": TimeState(active: true, selected: false),
+    "09:45 AM": TimeState(active: true, selected: false),
+    "10:00 AM": TimeState(active: true, selected: false),
+    "10:15 AM": TimeState(active: true, selected: false),
+    "10:30 AM": TimeState(active: true, selected: false),
+    "10:45 AM": TimeState(active: true, selected: false),
+    "11:00 AM": TimeState(active: true, selected: false),
+    "11:15 AM": TimeState(active: true, selected: false),
+    "11:30 AM": TimeState(active: true, selected: false),
+    "11:45 AM": TimeState(active: true, selected: false),
+    "12:00 PM": TimeState(active: true, selected: false),
+    "12:15 PM": TimeState(active: true, selected: false),
+    "12:30 PM": TimeState(active: true, selected: false),
+    "12:45 PM": TimeState(active: true, selected: false),
+    "01:00 PM": TimeState(active: true, selected: false),
+    "01:15 PM": TimeState(active: true, selected: false),
+    "01:30 PM": TimeState(active: true, selected: false),
+    "01:45 PM": TimeState(active: true, selected: false),
+    "02:00 PM": TimeState(active: true, selected: false),
+    "02:15 PM": TimeState(active: true, selected: false),
+    "02:30 PM": TimeState(active: true, selected: false),
+    "02:45 PM": TimeState(active: true, selected: false),
+    "03:00 PM": TimeState(active: true, selected: false),
+    "03:15 PM": TimeState(active: true, selected: false),
+    "03:30 PM": TimeState(active: true, selected: false),
+    "03:45 PM": TimeState(active: true, selected: false),
+    "04:00 PM": TimeState(active: true, selected: false),
+    "04:15 PM": TimeState(active: true, selected: false),
+    "04:30 PM": TimeState(active: true, selected: false),
+    "04:45 PM": TimeState(active: true, selected: false),
+    "05:00 PM": TimeState(active: true, selected: false),
+    "05:15 PM": TimeState(active: true, selected: false),
+    "05:30 PM": TimeState(active: true, selected: false),
+    "05:45 PM": TimeState(active: true, selected: false),
+    "06:00 PM": TimeState(active: true, selected: false),
+    "06:15 PM": TimeState(active: true, selected: false),
+    "06:30 PM": TimeState(active: true, selected: false),
+    "06:45 PM": TimeState(active: true, selected: false),
+    "07:00 PM": TimeState(active: true, selected: false),
+    "07:15 PM": TimeState(active: true, selected: false),
+    "07:30 PM": TimeState(active: true, selected: false),
+    "07:45 PM": TimeState(active: true, selected: false),
+    "08:00 PM": TimeState(active: true, selected: false),
+    "08:15 PM": TimeState(active: true, selected: false),
+    "08:30 PM": TimeState(active: true, selected: false),
+    "08:45 PM": TimeState(active: true, selected: false),
+    "09:00 PM": TimeState(active: true, selected: false),
+    "09:15 PM": TimeState(active: true, selected: false),
+    "09:30 PM": TimeState(active: true, selected: false),
+    "09:45 PM": TimeState(active: true, selected: false),
+    "10:00 PM": TimeState(active: true, selected: false)
   };
 
   List<String> times = [
-    "09:30:00 AM",
-    "09:45:00 AM",
-    "10:00:00 AM",
-    "10:15:00 AM",
-    "10:30:00 AM",
-    "10:45:00 AM",
-    "11:00:00 AM",
-    "11:15:00 AM",
-    "11:30:00 AM",
-    "11:45:00 AM",
-    "12:00:00 PM",
-    "12:15:00 PM",
-    "12:30:00 PM",
-    "12:45:00 PM",
-    "13:00:00 PM",
-    "13:15:00 PM",
-    "13:30:00 PM",
-    "13:45:00 PM",
-    "14:00:00 PM",
-    "14:15:00 PM",
-    "14:30:00 PM",
-    "14:45:00 PM",
-    "15:00:00 PM",
-    "15:15:00 PM",
-    "15:30:00 PM",
-    "15:45:00 PM",
-    "16:00:00 PM",
-    "16:15:00 PM",
-    "16:30:00 PM",
-    "16:45:00 PM",
-    "17:00:00 PM",
-    "17:15:00 PM",
-    "17:30:00 PM",
-    "17:45:00 PM",
-    "18:00:00 PM",
-    "18:15:00 PM",
-    "18:30:00 PM",
-    "18:45:00 PM",
-    "19:00:00 PM",
-    "19:15:00 PM",
-    "19:30:00 PM",
-    "19:45:00 PM",
-    "20:00:00 PM",
-    "20:15:00 PM",
-    "20:30:00 PM",
-    "20:45:00 PM",
-    "21:00:00 PM",
-    "21:15:00 PM",
-    "21:30:00 PM",
-    "21:45:00 PM",
-    "22:00:00 PM",
+    "09:30 AM",
+    "09:45 AM",
+    "10:00 AM",
+    "10:15 AM",
+    "10:30 AM",
+    "10:45 AM",
+    "11:00 AM",
+    "11:15 AM",
+    "11:30 AM",
+    "11:45 AM",
+    "12:00 PM",
+    "12:15 PM",
+    "12:30 PM",
+    "12:45 PM",
+    "01:00 PM",
+    "01:15 PM",
+    "01:30 PM",
+    "01:45 PM",
+    "02:00 PM",
+    "02:15 PM",
+    "02:30 PM",
+    "02:45 PM",
+    "03:00 PM",
+    "03:15 PM",
+    "03:30 PM",
+    "03:45 PM",
+    "04:00 PM",
+    "04:15 PM",
+    "04:30 PM",
+    "04:45 PM",
+    "05:00 PM",
+    "05:15 PM",
+    "05:30 PM",
+    "05:45 PM",
+    "06:00 PM",
+    "06:15 PM",
+    "06:30 PM",
+    "06:45 PM",
+    "07:00 PM",
+    "07:15 PM",
+    "07:30 PM",
+    "07:45 PM",
+    "08:00 PM",
+    "08:15 PM",
+    "08:30 PM",
+    "08:45 PM",
+    "09:00 PM",
+    "09:15 PM",
+    "09:30 PM",
+    "09:45 PM",
+    "10:00 PM",
   ];
+
+  bool isTimePassed(String inputTime, DateTime now) {
+    // Parse the provided time string into DateTime object
+    DateTime providedTime = DateFormat('hh:mm a').parse(inputTime);
+
+    // Create a DateTime for today with the provided time
+    DateTime todayWithProvidedTime = DateTime(
+        now.year, now.month, now.day, providedTime.hour, providedTime.minute);
+
+    // Compare if the calculated time has passed
+    if (now.isAfter(todayWithProvidedTime)) {
+      return true; // Time has passed for today
+    } else {
+      return false; // Time has not passed yet for today
+    }
+  }
+
   bool atIsChecked = false;
   bool ajIsChecked = false, ktIsChecked = false;
   bool allIsChecked = false, evenIsChecked = false, oddIsChecked = false;
@@ -241,8 +267,15 @@ class GameSelector with ChangeNotifier {
     return SelectionType.SINGLE;
   }
 
-  void toggleSelectedToday() {
-    selectedToday = !selectedToday;
+  void todayClicked() {
+    showTimes = true;
+    selectedToday = true;
+    notifyListeners();
+  }
+
+  void nextDayClicked() {
+    showTimes = true;
+    showNextDayTimes = true;
     notifyListeners();
   }
 

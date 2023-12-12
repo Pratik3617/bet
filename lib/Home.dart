@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:bet/Home/Check_Button.dart';
+import 'package:bet/Home/CustomButton.dart';
+import 'package:bet/Home/Input_Box.dart';
 import 'package:bet/Result.dart';
 import 'package:bet/TransactionList/Transaction.dart';
 import 'package:bet/providers/game_selector.dart';
@@ -253,6 +256,7 @@ class _QrCodeState extends State<Home> {
     DateTime now1 = DateTime.now();
     String formattedDate = "${now1.day}-${now1.month}-${now1.year}";
     String formattedTime = "${now1.hour}:${now1.minute}:${now1.second}";
+    final size = MediaQuery.of(context).size;
 
     return MaterialApp(
       theme: ThemeData(
@@ -265,98 +269,223 @@ class _QrCodeState extends State<Home> {
       home: Scaffold(
         appBar: AppBar(
           leading: SizedBox.shrink(),
-          toolbarHeight: 134.0,
+          toolbarHeight: 200.0,
           backgroundColor: Colors.blueGrey,
           actions: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 2.0, 20.0, 2.0),
+                padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Consumer<UserProvider>(
-                          builder: (context, userProvider, child) {
-                            return Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0, vertical: 2.0),
-                                  margin: const EdgeInsets.fromLTRB(
-                                      0.0, 0.0, 0.0, 5.0),
-                                  width: 250.0,
-                                  height: 40.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.yellow[600],
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Terminal Name - ${userProvider.user?.username.toUpperCase() ?? ''}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: "SansSerif",
-                                        fontSize: 15,
-                                      ),
+                    Consumer<GameSelector>(
+                      builder: (context, value, child) {
+                        return value.showTimes
+                            ? Container(
+                                constraints:
+                                    BoxConstraints(maxWidth: size.width * 0.81),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Check_Button(
+                                            width: 250.0,
+                                            height: 28.0,
+                                            isChecked: value.allTimesSelected,
+                                            fontSize: 16,
+                                            decoration: BoxDecoration(
+                                                color: Colors.orange.shade100),
+                                            text: "Check to select all games",
+                                            onChange: (bool? v) {
+                                              value.allTimesSelected = v!;
+                                              if (v == true) {
+                                                for (var element
+                                                    in value.times) {
+                                                  if (!value.isTimePassed(
+                                                      element,
+                                                      DateTime.now())) {
+                                                    value.timesValues[element]!
+                                                        .selected = v;
+                                                  }
+                                                }
+                                              } else {
+                                                for (var element
+                                                    in value.times) {
+                                                  value.timesValues[element]!
+                                                      .selected = v;
+                                                }
+                                              }
+                                            }),
+                                        CustomButton(
+                                            width: 380.0,
+                                            height: 28.0,
+                                            text:
+                                                "Click here to clear all selection",
+                                            decoration: BoxDecoration(
+                                                color: Colors.yellow),
+                                            onClick: () {
+                                              value.allTimesSelected = false;
+                                              for (var element in value.times) {
+                                                value.timesValues[element]!
+                                                    .selected = false;
+                                              }
+                                              value.notifyListeners();
+                                            }),
+                                        CustomButton(
+                                            width: 100.0,
+                                            height: 28.0,
+                                            decoration: BoxDecoration(
+                                                color: Colors.red),
+                                            text: "Close",
+                                            onClick: () {
+                                              value.showTimes = false;
+                                              value.notifyListeners();
+                                            })
+                                      ],
                                     ),
-                                  ),
+                                    Wrap(
+                                      children: [
+                                        for (var i = 0;
+                                            i < value.times.length;
+                                            i++) ...[
+                                          Check_Button(
+                                              width: 117,
+                                              height: 30.0,
+                                              fontSize: 16,
+                                              isChecked: value
+                                                          .timesValues[
+                                                              value.times[i]]
+                                                          ?.active ==
+                                                      false
+                                                  ? false
+                                                  : (value
+                                                          .timesValues[
+                                                              value.times[i]]
+                                                          ?.selected ??
+                                                      false),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.blue.shade100),
+                                              text: value.times[i],
+                                              onChange: (bool? v) {
+                                                if (!value.isTimePassed(
+                                                    value.times[i],
+                                                    DateTime.now())) {
+                                                  value
+                                                      .timesValues[
+                                                          value.times[i]]!
+                                                      .selected = v!;
+                                                  value.notifyListeners();
+                                                }
+                                              }),
+                                        ]
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            );
-                          },
-                        ),
-                        Row(
-                          children: [
-                            Text("Terminal Id - A09909",
-                                style: customTextStyle),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 3.0, horizontal: 5.0),
-                                margin: const EdgeInsets.fromLTRB(
-                                    0.0, 5.0, 0.0, 0.0),
-                                width: 250.0,
-                                height: 40.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Colors.yellow,
-                                      width: 2.0,
-                                    )),
-                                child: Center(
-                                  child: Text(
-                                      'Next Game  ${times[_currentIndex]}',
-                                      style: const TextStyle(
-                                          fontFamily: "SansSerif",
-                                          color: Colors.black,
-                                          fontSize: 15)),
-                                ))
-                          ],
-                        ),
-                      ],
-                    ),
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "N.1 GAMING",
-                          style: TextStyle(
-                            fontFamily: 'YoungSerif',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 50.0,
-                            color: Color(0xFFF3FDE8),
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                      ],
+                              )
+                            : Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Consumer<UserProvider>(
+                                        builder:
+                                            (context, userProvider, child) {
+                                          return Row(
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5.0,
+                                                        vertical: 2.0),
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0.0, 0.0, 0.0, 5.0),
+                                                width: 250.0,
+                                                height: 40.0,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.yellow[600],
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    "Terminal Name - ${userProvider.user?.username.toUpperCase() ?? ''}",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontFamily: "SansSerif",
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Terminal Id - A09909",
+                                              style: customTextStyle),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 3.0,
+                                                      horizontal: 5.0),
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0.0, 5.0, 0.0, 0.0),
+                                              width: 250.0,
+                                              height: 40.0,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    color: Colors.yellow,
+                                                    width: 2.0,
+                                                  )),
+                                              child: Center(
+                                                child: Text(
+                                                    'Next Game  ${times[_currentIndex]}',
+                                                    style: const TextStyle(
+                                                        fontFamily: "SansSerif",
+                                                        color: Colors.black,
+                                                        fontSize: 15)),
+                                              ))
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 350),
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "N.1 GAMING",
+                                        style: TextStyle(
+                                          fontFamily: 'YoungSerif',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 50.0,
+                                          color: Color(0xFFF3FDE8),
+                                          letterSpacing: 2.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                      },
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
