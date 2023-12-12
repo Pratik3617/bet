@@ -6,8 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class HomeBottom extends StatelessWidget {
+  const HomeBottom({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final select = Provider.of<GameSelector>(context, listen: false);
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(top: 5.0),
@@ -20,7 +23,9 @@ class HomeBottom extends StatelessWidget {
               SizedBox(
                 height: 40.0,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    select.toggleSelectedToday();
+                  },
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.green),
@@ -34,7 +39,7 @@ class HomeBottom extends StatelessWidget {
                           color: Colors.white),
                     ),
                   ),
-                  child: Text(" TODAY ",
+                  child: Text(select.selectedToday ? " NEXT DAY " : " TODAY ",
                       style: TextStyle(
                           fontFamily: "SansSerif",
                           letterSpacing: 2.0,
@@ -178,7 +183,8 @@ class HomeBottom extends StatelessWidget {
                       for (int i = 0; i < 20; i++) {
                         for (int j = 0; j < 10; j++) {
                           for (int k = 0; k < 10; k++) {
-                            if (select.matrixList[i][j][k] != "") {
+                            if (select.matrixList[i][j][k] != "" &&
+                                select.matrixList[i][j][k] != "0") {
                               print(
                                   "${select.checkbox[i]}-$j$k - ${select.matrixList[i][j][k]}");
                             }

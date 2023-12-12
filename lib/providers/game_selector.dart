@@ -6,6 +6,10 @@ class GameSelector with ChangeNotifier {
   String activeMatrix = 'A';
   String prevActiveMatrix = 'A';
 
+  bool selectedToday = true;
+
+  bool showTimes = false;
+
   Map<String, bool> checkBoxValues = {
     'A': true,
     'B': false,
@@ -51,6 +55,60 @@ class GameSelector with ChangeNotifier {
     "S",
     "T"
   ];
+
+  Map<String, bool> timesValues = {
+    "09:30:00 AM": false,
+    "09:45:00 AM": false,
+    "10:00:00 AM": false,
+    "10:15:00 AM": false,
+    "10:30:00 AM": false,
+    "10:45:00 AM": false,
+    "11:00:00 AM": false,
+    "11:15:00 AM": false,
+    "11:30:00 AM": false,
+    "11:45:00 AM": false,
+    "12:00:00 PM": false,
+    "12:15:00 PM": false,
+    "12:30:00 PM": false,
+    "12:45:00 PM": false,
+    "13:00:00 PM": false,
+    "13:15:00 PM": false,
+    "13:30:00 PM": false,
+    "13:45:00 PM": false,
+    "14:00:00 PM": false,
+    "14:15:00 PM": false,
+    "14:30:00 PM": false,
+    "14:45:00 PM": false,
+    "15:00:00 PM": false,
+    "15:15:00 PM": false,
+    "15:30:00 PM": false,
+    "15:45:00 PM": false,
+    "16:00:00 PM": false,
+    "16:15:00 PM": false,
+    "16:30:00 PM": false,
+    "16:45:00 PM": false,
+    "17:00:00 PM": false,
+    "17:15:00 PM": false,
+    "17:30:00 PM": false,
+    "17:45:00 PM": false,
+    "18:00:00 PM": false,
+    "18:15:00 PM": false,
+    "18:30:00 PM": false,
+    "18:45:00 PM": false,
+    "19:00:00 PM": false,
+    "19:15:00 PM": false,
+    "19:30:00 PM": false,
+    "19:45:00 PM": false,
+    "20:00:00 PM": false,
+    "20:15:00 PM": false,
+    "20:30:00 PM": false,
+    "20:45:00 PM": false,
+    "21:00:00 PM": false,
+    "21:15:00 PM": false,
+    "21:30:00 PM": false,
+    "21:45:00 PM": false,
+    "22:00:00 PM": false
+  };
 
   List<String> times = [
     "09:30:00 AM",
@@ -183,6 +241,11 @@ class GameSelector with ChangeNotifier {
     return SelectionType.SINGLE;
   }
 
+  void toggleSelectedToday() {
+    selectedToday = !selectedToday;
+    notifyListeners();
+  }
+
   void toggleAT(bool? value) {
     if (value == true) {
       prevActiveMatrix = activeMatrix;
@@ -193,11 +256,11 @@ class GameSelector with ChangeNotifier {
       checkBoxValues.forEach((k, v) => checkBoxValues[k] = true);
       handleMultipleCheckboxChange(value, SelectionType.ATOT);
     } else {
-      checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
-      activeMatrix = prevActiveMatrix;
-      setCheckBoxes();
-      atIsChecked = value!;
-      handleMultipleCheckboxChange(value, getSelectionType());
+      // handleMultipleCheckboxChange(value!, getSelectionType());
+      // checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
+      // activeMatrix = prevActiveMatrix;
+      // setCheckBoxes();
+      // atIsChecked = value;
     }
     notifyListeners();
   }
@@ -226,11 +289,11 @@ class GameSelector with ChangeNotifier {
       });
       handleMultipleCheckboxChange(value, SelectionType.ATOJ);
     } else {
-      checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
-      activeMatrix = prevActiveMatrix;
-      setCheckBoxes();
-      ajIsChecked = value!;
-      handleMultipleCheckboxChange(value, getSelectionType());
+      // handleMultipleCheckboxChange(value!, getSelectionType());
+      // checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
+      // activeMatrix = prevActiveMatrix;
+      // setCheckBoxes();
+      // ajIsChecked = value;
     }
     notifyListeners();
   }
@@ -259,11 +322,11 @@ class GameSelector with ChangeNotifier {
       });
       handleMultipleCheckboxChange(value, SelectionType.KTOT);
     } else {
-      checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
-      activeMatrix = prevActiveMatrix;
-      setCheckBoxes();
-      ktIsChecked = value!;
-      handleMultipleCheckboxChange(value, getSelectionType());
+      // handleMultipleCheckboxChange(value!, getSelectionType());
+      // checkBoxValues.forEach((k, v) => checkBoxValues[k] = false);
+      // activeMatrix = prevActiveMatrix;
+      // setCheckBoxes();
+      // ktIsChecked = value;
     }
     notifyListeners();
   }
