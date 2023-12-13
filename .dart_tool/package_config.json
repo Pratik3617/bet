@@ -20,6 +20,18 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "barcode",
+      "rootUri": "file:///Users/ronak/.pub-cache/hosted/pub.dev/barcode-2.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "barcode_widget",
+      "rootUri": "file:///Users/ronak/.pub-cache/hosted/pub.dev/barcode_widget-2.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///Users/ronak/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -314,7 +326,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-12T19:49:11.087637Z",
+  "generated": "2023-12-13T09:40:21.008264Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

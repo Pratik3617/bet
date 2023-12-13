@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:convert';
-
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:universal_html/html.dart' as html;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -348,6 +348,15 @@ class HomeBottom extends StatelessWidget {
                                               color: Colors.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
+                                        ),
+                                        BarcodeWidget(
+                                          barcode: Barcode.code128(
+                                              useCode128A: false,
+                                              useCode128C:
+                                                  false), // Barcode type and settings
+                                          data: txnId, // Content
+                                          width: 300,
+                                          height: 50,
                                         ),
                                         SizedBox(height: 20),
                                       ],

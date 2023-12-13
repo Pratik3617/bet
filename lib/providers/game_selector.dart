@@ -1,7 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:async';
-
+import 'dart:io';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -527,6 +528,8 @@ class GameSelector with ChangeNotifier {
     }
     notifyListeners();
   }
+
+
 }
 
 enum SelectionType { SINGLE, ATOT, ATOJ, KTOT }
