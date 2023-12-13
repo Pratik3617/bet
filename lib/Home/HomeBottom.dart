@@ -349,6 +349,7 @@ class HomeBottom extends StatelessWidget {
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         ),
+                                        SizedBox(height: 10),
                                         BarcodeWidget(
                                           barcode: Barcode.code128(
                                               useCode128A: false,
