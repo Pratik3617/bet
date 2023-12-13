@@ -452,6 +452,39 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                       return Container(
                         margin: const EdgeInsets.fromLTRB(0, 3, 6, 3),
                         child: Input_Box(
+                          onChange: (v) {
+                            if (select.fpIsChecked) {
+                              int index1 = i;
+                              int index2 = j - 1;
+                              int calculatedIndex1 = i + 5;
+                              int calculatedIndex2 = j - 1 + 5;
+                              // Update the text in multiple controllers
+                              select.controllers[index1][index2].text = v;
+                              select.controllers[index1][calculatedIndex2]
+                                  .text = v;
+                              select.controllers[calculatedIndex1][index2]
+                                  .text = v;
+                              select
+                                  .controllers[calculatedIndex1]
+                                      [calculatedIndex2]
+                                  .text = v;
+
+                              // Set the selection after updating the text
+                              select.controllers[index1][index2].selection =
+                                  TextSelection.collapsed(offset: v.length);
+                              select.controllers[index1][calculatedIndex2]
+                                      .selection =
+                                  TextSelection.collapsed(offset: v.length);
+                              select.controllers[calculatedIndex1][index2]
+                                      .selection =
+                                  TextSelection.collapsed(offset: v.length);
+                              select
+                                      .controllers[calculatedIndex1]
+                                          [calculatedIndex2]
+                                      .selection =
+                                  TextSelection.collapsed(offset: v.length);
+                            }
+                          },
                           text: (i * 10 + (j - 1)).toString().padLeft(2, '0'),
                           color: Colors.white,
                           controller: widget.matrixControllers[i][j - 1],

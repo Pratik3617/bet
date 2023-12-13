@@ -232,10 +232,6 @@ class GameSelector with ChangeNotifier {
   }
 
   TextEditingController lpController = TextEditingController();
-  int randomIndex1 = 0;
-  int randomIndex2 = 0;
-  int calculatedR1 = 5;
-  int calculatedR2 = 5;
 
   int r1 = 0;
   int r2 = 0;
@@ -255,13 +251,6 @@ class GameSelector with ChangeNotifier {
     r6 = getRandomNumber();
     r7 = getRandomNumber();
     r8 = getRandomNumber();
-  }
-
-  setRandomIndex() {
-    randomIndex1 = getRandomNumber();
-    randomIndex2 = getRandomNumber();
-    calculatedR1 = randomIndex1 + 5;
-    calculatedR2 = randomIndex2 + 5;
   }
 
   getRandomNumber() {
@@ -471,8 +460,7 @@ class GameSelector with ChangeNotifier {
 
   void toggleFP(bool? value) {
     fpIsChecked = value!;
-    setRandomIndex();
-    notifyListeners();
+     notifyListeners();
   }
 
   void handleCheckboxChange(String key, bool? value) {
