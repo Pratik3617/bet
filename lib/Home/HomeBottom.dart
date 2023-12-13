@@ -221,6 +221,8 @@ class HomeBottom extends StatelessWidget {
                           }
                         }
                       }
+                      String txnId =
+                          "TXN${DateTime.now().millisecondsSinceEpoch}";
                       String selectedCharacters = "";
                       String selectedTimes = "";
                       int totalPoints = 0;
@@ -262,6 +264,7 @@ class HomeBottom extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12.0),
                             color: Colors.white,
                           ),
+                          clipBehavior: Clip.hardEdge,
                           padding: EdgeInsets.only(bottom: 16),
                           child: SingleChildScrollView(
                             child: Column(
@@ -299,7 +302,7 @@ class HomeBottom extends StatelessWidget {
                                         ),
                                         SizedBox(height: 5),
                                         Text(
-                                          "ID : TXN${DateTime.now().millisecondsSinceEpoch}",
+                                          "ID : ${txnId}",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
