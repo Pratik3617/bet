@@ -332,12 +332,14 @@ class GameSelector with ChangeNotifier {
   void todayClicked() {
     showTimes = true;
     selectedToday = true;
+    showNextDayTimes = false;
     notifyListeners();
   }
 
   void nextDayClicked() {
     showTimes = true;
     showNextDayTimes = true;
+    selectedToday = null;
     notifyListeners();
   }
 
@@ -461,7 +463,7 @@ class GameSelector with ChangeNotifier {
 
   void toggleFP(bool? value) {
     fpIsChecked = value!;
-     notifyListeners();
+    notifyListeners();
   }
 
   void handleCheckboxChange(String key, bool? value) {
