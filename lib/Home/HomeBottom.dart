@@ -303,6 +303,14 @@ class HomeBottom extends StatelessWidget {
                                         ),
                                         SizedBox(height: 5),
                                         Text(
+                                          "PRATEEK",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
                                           "ID : ${txnId}",
                                           style: TextStyle(
                                               color: Colors.black,
