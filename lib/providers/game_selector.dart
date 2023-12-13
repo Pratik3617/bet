@@ -228,6 +228,8 @@ class GameSelector with ChangeNotifier {
     return controllers;
   }
 
+  TextEditingController lpController = TextEditingController();
+
   bool ShowTimeSheet = false;
 
   void loadTimeSheet() {

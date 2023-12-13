@@ -245,8 +245,9 @@ class HomeBottom extends StatelessWidget {
                                 select.matrixList[i][j][k] != "0") {
                               selectedCharacters +=
                                   "${select.checkbox[i]}-$j$k - ${int.parse(select.matrixList[i][j][k] ?? "0") * 2}     ";
-                              totalPoints +=
-                                  int.parse(select.matrixList[i][j][k] ?? "0");
+                              totalPoints += (int.parse(
+                                      select.matrixList[i][j][k] ?? "0") *
+                                  2);
                             }
                           }
                         }

@@ -327,6 +327,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                         width: 60.0,
                         height: 40.0,
                         child: TextField(
+                          controller: select.lpController,
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter
