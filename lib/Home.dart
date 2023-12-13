@@ -311,13 +311,27 @@ class _QrCodeState extends State<Home> {
                                                 color: Colors.orange.shade100),
                                             text: "Check to select all games",
                                             onChange: (bool? v) {
+                                              DateTime now = DateTime.now();
+                                              DateTime tomorrow = DateTime(
+                                                  now.year,
+                                                  now.month,
+                                                  now.day + 1);
+                                              DateTime tomorrowTime = DateTime(
+                                                  tomorrow.year,
+                                                  tomorrow.month,
+                                                  tomorrow.day,
+                                                  0,
+                                                  0,
+                                                  0);
                                               value.allTimesSelected = v!;
                                               if (v == true) {
                                                 for (var element
                                                     in value.times) {
                                                   if (!value.isTimePassed(
                                                       element,
-                                                      DateTime.now())) {
+                                                      value.showNextDayTimes
+                                                          ? tomorrowTime
+                                                          : now)) {
                                                     value.timesValues[element]!
                                                         .selected = v;
                                                   }
@@ -381,9 +395,24 @@ class _QrCodeState extends State<Home> {
                                                   color: Colors.blue.shade100),
                                               text: value.times[i],
                                               onChange: (bool? v) {
+                                                DateTime now = DateTime.now();
+                                                DateTime tomorrow = DateTime(
+                                                    now.year,
+                                                    now.month,
+                                                    now.day + 1);
+                                                DateTime tomorrowTime =
+                                                    DateTime(
+                                                        tomorrow.year,
+                                                        tomorrow.month,
+                                                        tomorrow.day,
+                                                        0,
+                                                        0,
+                                                        0);
                                                 if (!value.isTimePassed(
                                                     value.times[i],
-                                                    DateTime.now())) {
+                                                    value.showNextDayTimes
+                                                        ? tomorrowTime
+                                                        : now)) {
                                                   value
                                                       .timesValues[
                                                           value.times[i]]!
