@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -11,6 +13,30 @@ class TimeState {
 }
 
 class GameSelector with ChangeNotifier {
+  late Timer _timer5;
+  GameSelector() {
+    _timer5 = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setTimeCheckBoxesState();
+    });
+  }
+
+  setTimeCheckBoxesState() async {
+    DateTime now = DateTime.now();
+    DateTime tomorrow = DateTime(now.year, now.month, now.day + 1);
+    DateTime tomorrowTime =
+        DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 0, 0, 0);
+
+    for (var time in times) {
+      if (isTimePassed(time, showNextDayTimes ? tomorrowTime : now)) {
+        timesValues[time]!.active = false;
+        timesValues[time]!.selected = false;
+      } else {
+        timesValues[time]!.active = true;
+      }
+    }
+    notifyListeners();
+  }
+
   String activeMatrix = 'A';
   String prevActiveMatrix = 'A';
 

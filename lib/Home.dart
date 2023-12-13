@@ -39,6 +39,7 @@ class _QrCodeState extends State<Home> {
   late Timer _timer2;
   late Timer _timer3;
   late Timer _timer4;
+  late Timer _timer5;
   late Duration _timeRemaining = Duration();
   Duration _remainingTime = Duration();
   DateTime _currentTime = DateTime.now();
@@ -47,6 +48,7 @@ class _QrCodeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    // _setTimeCheckBoxState();
     _startTimer();
     _startTimer2();
     // _updateTimer();
@@ -229,12 +231,21 @@ class _QrCodeState extends State<Home> {
     }
   }
 
+  // void _setTimeCheckBoxState() {
+  //   final function = Provider.of<GameSelector>(context, listen: false)
+  //       .setTimeCheckBoxesState();
+  //   _timer5 = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     function();
+  //   });
+  // }
+
   @override
   void dispose() {
     _timer.cancel();
     _timer2.cancel();
     _timer3.cancel();
     _timer4.cancel();
+    _timer5.cancel();
     super.dispose();
   }
 

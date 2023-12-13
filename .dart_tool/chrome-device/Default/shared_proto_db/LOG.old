@@ -1,22 +1,14 @@
-2023/12/12-22:03:12.851 f903 Reusing MANIFEST /private/var/folders/mt/r6trhjv13wdcllx4407cvlm80000gn/T/flutter_tools.FJffSP/flutter_tools_chrome_device.b2EzhR/Default/shared_proto_db/MANIFEST-000001
-2023/12/12-22:03:12.851 f903 Recovering log #13
-2023/12/12-22:03:12.852 f903 Reusing old log /private/var/folders/mt/r6trhjv13wdcllx4407cvlm80000gn/T/flutter_tools.FJffSP/flutter_tools_chrome_device.b2EzhR/Default/shared_proto_db/000013.log 
-2023/12/12-22:03:12.853 f903 Delete type=0 #7
-2023/12/12-22:03:12.853 f903 Delete type=0 #4
-2023/12/12-22:03:12.853 f903 Delete type=0 #10
-2023/12/12-22:03:12.853 f903 Delete type=0 #3
-2023/12/13-01:22:56.763 a303 Level-0 table #17: started
-2023/12/13-01:22:56.774 a303 Level-0 table #17: 170315 bytes OK
-2023/12/13-01:22:56.781 a303 Delete type=0 #13
-2023/12/13-01:25:20.250 fa03 Level-0 table #19: started
-2023/12/13-01:25:20.261 fa03 Level-0 table #19: 534669 bytes OK
-2023/12/13-01:25:20.270 fa03 Delete type=0 #16
-2023/12/13-01:25:20.270 fa03 Compacting 4@0 + 1@1 files
-2023/12/13-01:25:20.280 fa03 Generated table #20@0: 1316 keys, 271739 bytes
-2023/12/13-01:25:20.280 fa03 Compacted 4@0 + 1@1 files => 271739 bytes
-2023/12/13-01:25:20.288 fa03 compacted to: files[ 0 1 1 0 0 0 0 ]
-2023/12/13-01:25:20.289 fa03 Delete type=2 #14
-2023/12/13-01:25:20.289 fa03 Delete type=2 #17
-2023/12/13-01:25:20.289 fa03 Delete type=2 #11
-2023/12/13-01:25:20.289 fa03 Delete type=2 #8
-2023/12/13-01:25:20.289 fa03 Delete type=2 #19
+2023/12/13-01:52:00.815 8703 Reusing MANIFEST /private/var/folders/mt/r6trhjv13wdcllx4407cvlm80000gn/T/flutter_tools.AiGCdw/flutter_tools_chrome_device.sjvNCO/Default/shared_proto_db/MANIFEST-000001
+2023/12/13-01:52:00.815 8703 Recovering log #18
+2023/12/13-01:52:00.816 8703 Reusing old log /private/var/folders/mt/r6trhjv13wdcllx4407cvlm80000gn/T/flutter_tools.AiGCdw/flutter_tools_chrome_device.sjvNCO/Default/shared_proto_db/000018.log 
+2023/12/13-01:52:00.816 8703 Delete type=0 #13
+2023/12/13-01:52:00.816 8703 Delete type=0 #7
+2023/12/13-01:52:00.816 8703 Delete type=0 #4
+2023/12/13-01:52:00.816 8703 Delete type=0 #10
+2023/12/13-01:52:00.816 8703 Delete type=0 #3
+2023/12/13-01:52:00.816 8703 Delete type=2 #14
+2023/12/13-01:52:00.816 8703 Delete type=2 #11
+2023/12/13-01:52:00.816 8703 Delete type=2 #8
+2023/12/13-01:52:36.761 8703 Level-0 table #23: started
+2023/12/13-01:52:36.773 8703 Level-0 table #23: 567231 bytes OK
+2023/12/13-01:52:36.780 8703 Delete type=0 #18
