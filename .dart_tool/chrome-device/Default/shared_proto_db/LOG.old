@@ -1,15 +1,26 @@
-2023/12/13-12:05:44.769 f803 Reusing MANIFEST /private/var/folders/mt/r6trhjv13wdcllx4407cvlm80000gn/T/flutter_tools.fx0hmL/flutter_tools_chrome_device.u5H9tW/Default/shared_proto_db/MANIFEST-000001
-2023/12/13-12:05:44.769 f803 Recovering log #22
-2023/12/13-12:05:44.770 f803 Reusing old log /private/var/folders/mt/r6trhjv13wdcllx4407cvlm80000gn/T/flutter_tools.fx0hmL/flutter_tools_chrome_device.u5H9tW/Default/shared_proto_db/000022.log 
-2023/12/13-12:05:44.771 f803 Delete type=0 #13
-2023/12/13-12:05:44.771 f803 Delete type=0 #7
-2023/12/13-12:05:44.771 f803 Delete type=0 #4
-2023/12/13-12:05:44.771 f803 Delete type=0 #10
-2023/12/13-12:05:44.771 f803 Delete type=0 #3
-2023/12/13-12:05:44.771 f803 Delete type=2 #14
-2023/12/13-12:05:44.771 f803 Delete type=2 #11
-2023/12/13-12:05:44.771 f803 Delete type=2 #8
-2023/12/13-12:05:44.771 f803 Delete type=0 #18
-2023/12/13-12:14:03.779 f903 Level-0 table #26: started
-2023/12/13-12:14:03.789 f903 Level-0 table #26: 451583 bytes OK
-2023/12/13-12:14:03.795 f903 Delete type=0 #22
+2023/12/13-15:42:07.568 8903 Reusing MANIFEST /private/var/folders/mt/r6trhjv13wdcllx4407cvlm80000gn/T/flutter_tools.KVhxHH/flutter_tools_chrome_device.2aIIYV/Default/shared_proto_db/MANIFEST-000001
+2023/12/13-15:42:07.569 8903 Recovering log #28
+2023/12/13-15:42:07.570 8903 Reusing old log /private/var/folders/mt/r6trhjv13wdcllx4407cvlm80000gn/T/flutter_tools.KVhxHH/flutter_tools_chrome_device.2aIIYV/Default/shared_proto_db/000028.log 
+2023/12/13-15:42:07.570 8903 Delete type=0 #13
+2023/12/13-15:42:07.570 8903 Delete type=0 #7
+2023/12/13-15:42:07.570 8903 Delete type=0 #4
+2023/12/13-15:42:07.570 8903 Delete type=0 #10
+2023/12/13-15:42:07.570 8903 Delete type=0 #3
+2023/12/13-15:42:07.570 8903 Delete type=2 #14
+2023/12/13-15:42:07.570 8903 Delete type=2 #11
+2023/12/13-15:42:07.570 8903 Delete type=2 #8
+2023/12/13-15:42:07.570 8903 Delete type=0 #25
+2023/12/13-15:42:07.570 8903 Delete type=0 #18
+2023/12/13-15:42:07.570 8903 Delete type=0 #22
+2023/12/13-15:42:22.680 8903 Level-0 table #32: started
+2023/12/13-15:42:22.697 8903 Level-0 table #32: 430805 bytes OK
+2023/12/13-15:42:22.705 8903 Delete type=0 #28
+2023/12/13-15:42:22.706 8903 Compacting 4@0 + 1@1 files
+2023/12/13-15:42:22.716 8903 Generated table #33@0: 1419 keys, 93557 bytes
+2023/12/13-15:42:22.716 8903 Compacted 4@0 + 1@1 files => 93557 bytes
+2023/12/13-15:42:22.724 8903 compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/12/13-15:42:22.726 8903 Delete type=2 #29
+2023/12/13-15:42:22.726 8903 Delete type=2 #20
+2023/12/13-15:42:22.726 8903 Delete type=2 #23
+2023/12/13-15:42:22.726 8903 Delete type=2 #26
+2023/12/13-15:42:22.726 8903 Delete type=2 #32

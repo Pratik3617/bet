@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +17,7 @@ class TimeState {
 class GameSelector with ChangeNotifier {
   late Timer _timer5;
   GameSelector() {
+    setRandomForLP();
     _timer5 = Timer.periodic(const Duration(seconds: 1), (timer) {
       setTimeCheckBoxesState();
     });
@@ -230,13 +232,54 @@ class GameSelector with ChangeNotifier {
   }
 
   TextEditingController lpController = TextEditingController();
+  int randomIndex1 = 0;
+  int randomIndex2 = 0;
+  int calculatedR1 = 5;
+  int calculatedR2 = 5;
 
-  bool ShowTimeSheet = false;
+  int r1 = 0;
+  int r2 = 0;
+  int r3 = 0;
+  int r4 = 0;
+  int r5 = 0;
+  int r6 = 0;
+  int r7 = 0;
+  int r8 = 0;
 
-  void loadTimeSheet() {
-    // Simulate loading data, you can replace this with your actual data loading logic
-    ShowTimeSheet = !ShowTimeSheet;
-    notifyListeners();
+  setRandomForLP() {
+    r1 = getRandomNumber();
+    r2 = getRandomNumber();
+    r3 = getRandomNumber();
+    r4 = getRandomNumber();
+    r5 = getRandomNumber();
+    r6 = getRandomNumber();
+    r7 = getRandomNumber();
+    r8 = getRandomNumber();
+  }
+
+  setRandomIndex() {
+    randomIndex1 = getRandomNumber();
+    randomIndex2 = getRandomNumber();
+    calculatedR1 = randomIndex1 + 5;
+    calculatedR2 = randomIndex2 + 5;
+  }
+
+  getRandomNumber() {
+    Random rnd = Random();
+    int min = 0;
+    int max = 9;
+    return min + rnd.nextInt(max - min);
+  }
+
+  performLP(String v) {
+    controllers[r1][r2].text = v;
+    controllers[r3][r4].text = v;
+    controllers[r5][r6].text = v;
+    controllers[r7][r8].text = v;
+    // controllers[randomIndex1][randomIndex2].text = v;
+    // controllers[randomIndex1][calculatedR2].text = v;
+    // controllers[calculatedR1][randomIndex2].text = v;
+    // controllers[calculatedR1][calculatedR2].text = v;
   }
 
   List<List<List<String?>>> matrixList = List.generate(
@@ -428,6 +471,7 @@ class GameSelector with ChangeNotifier {
 
   void toggleFP(bool? value) {
     fpIsChecked = value!;
+    setRandomIndex();
     notifyListeners();
   }
 
@@ -528,8 +572,6 @@ class GameSelector with ChangeNotifier {
     }
     notifyListeners();
   }
-
-
 }
 
 enum SelectionType { SINGLE, ATOT, ATOJ, KTOT }

@@ -328,6 +328,14 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                         height: 40.0,
                         child: TextField(
                           controller: select.lpController,
+                          onChanged: (v) {
+                            if (v == "") {
+                              select.performLP(v);
+                              select.setRandomForLP();
+                            } else {
+                              select.performLP(v);
+                            }
+                          },
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter
