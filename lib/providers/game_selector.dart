@@ -15,6 +15,7 @@ class TimeState {
 }
 
 class GameSelector with ChangeNotifier {
+  TextEditingController barcodeController = TextEditingController(text: "");
   late Timer _timer5;
   GameSelector() {
     setRandomForLP();

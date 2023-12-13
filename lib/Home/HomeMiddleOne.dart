@@ -472,17 +472,6 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                               // Set the selection after updating the text
                               select.controllers[index1][index2].selection =
                                   TextSelection.collapsed(offset: v.length);
-                              select.controllers[index1][calculatedIndex2]
-                                      .selection =
-                                  TextSelection.collapsed(offset: v.length);
-                              select.controllers[calculatedIndex1][index2]
-                                      .selection =
-                                  TextSelection.collapsed(offset: v.length);
-                              select
-                                      .controllers[calculatedIndex1]
-                                          [calculatedIndex2]
-                                      .selection =
-                                  TextSelection.collapsed(offset: v.length);
                             }
                           },
                           text: (i * 10 + (j - 1)).toString().padLeft(2, '0'),

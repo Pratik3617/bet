@@ -104,6 +104,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "flutter_barcode_listener",
+      "rootUri": "file:///Users/ronak/.pub-cache/hosted/pub.dev/flutter_barcode_listener-0.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_lints",
       "rootUri": "file:///Users/ronak/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3",
       "packageUri": "lib/",
@@ -326,7 +332,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-13T09:40:21.008264Z",
+  "generated": "2023-12-13T11:51:57.931282Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

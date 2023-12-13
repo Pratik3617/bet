@@ -9,24 +9,24 @@ class QrCode extends StatefulWidget {
 }
 
 class _QrCodeState extends State<QrCode> {
-
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     TextEditingController _editingController = TextEditingController(text: "");
     String data = "Prateek";
-    return SafeArea(child: Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Container(
         width: 300.0,
         child: Column(
           children: [
-            Head_Input(label: "Barcode", controller: _editingController.text),
-            Button_G(text: "REDEEM",
-                onPressed: (){
+            Head_Input(label: "Barcode", controller: TextEditingController()),
+            Button_G(
+                text: "REDEEM",
+                onPressed: () {
                   setState(() {
                     data = _editingController.text;
                   });
-                }
-            ),
+                }),
             Center(
               child: QrImageView(
                 data: data,

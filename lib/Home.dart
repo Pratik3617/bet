@@ -20,6 +20,7 @@ import 'package:bet/providers/LoginProvider.dart';
 import './API/ShowResultAPI.dart';
 import 'package:bet/providers/ShowResult.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
 
 final TextStyle customTextStyle = TextStyle(
   fontFamily: 'SansSerif',
@@ -43,6 +44,7 @@ class _QrCodeState extends State<Home> {
   late Duration _timeRemaining = Duration();
   Duration _remainingTime = Duration();
   DateTime _currentTime = DateTime.now();
+
   // DateTime _targetTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 9, 30,);
 
   @override
@@ -263,7 +265,6 @@ class _QrCodeState extends State<Home> {
     String secondsStr =
         _timeRemaining.inSeconds.remainder(60).toString().padLeft(2, '0');
 
-    TextEditingController _editingController = TextEditingController(text: "");
     DateTime now1 = DateTime.now();
     String formattedDate = "${now1.day}-${now1.month}-${now1.year}";
     String formattedTime = "${now1.hour}:${now1.minute}:${now1.second}";
@@ -673,7 +674,7 @@ class _QrCodeState extends State<Home> {
                                 ),
                                 Head_Input(
                                   label: "Transaction Id",
-                                  controller: "",
+                                  controller: TextEditingController(),
                                 ),
                               ],
                             ),
@@ -701,7 +702,7 @@ class _QrCodeState extends State<Home> {
                                 ),
                                 Head_Input(
                                   label: "End Points",
-                                  controller: "",
+                                  controller: TextEditingController(),
                                 ),
                               ],
                             ),
@@ -728,10 +729,19 @@ class _QrCodeState extends State<Home> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                Head_Input(
-                                  label: "Barcode",
-                                  controller: _editingController.text,
-                                ),
+                                Consumer<GameSelector>(
+                                    builder: (context, value, child) {
+                                  return BarcodeKeyboardListener(
+                                    bufferDuration: Duration(milliseconds: 200),
+                                    onBarcodeScanned: (barcode) {
+                                      value.barcodeController.text = barcode;
+                                    },
+                                    child: Head_Input(
+                                      label: "Barcode",
+                                      controller: value.barcodeController,
+                                    ),
+                                  );
+                                }),
                                 Button_G(text: "REDEEM", onPressed: () {}),
                               ],
                             ),
