@@ -46,6 +46,9 @@ dev_dependencies:
   esc_pos_utils: ^1.1.0
   android_alarm_manager_plus: ^3.0.3
   http: ^1.1.0
+  universal_html: ^2.2.4
+  barcode_widget: ^2.0.4
+  flutter_barcode_listener: ^0.1.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

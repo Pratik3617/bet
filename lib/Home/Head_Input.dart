@@ -3,38 +3,33 @@ import 'package:flutter/material.dart';
 class Head_Input extends StatelessWidget {
   const Head_Input({super.key, required this.label, required this.controller});
   final String label;
-  final String controller;
-
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 150,
       height: 27.0,
-
-      child: TextField(
-        controller: TextEditingController(text: controller),
+      child: TextFormField(
+        textAlign: TextAlign.start,
+        controller: controller,
         style: TextStyle(
-            fontSize: 16.0,
-            color: Colors.white,
-            fontFamily: "SanSerif"
-        ),
+            fontSize: 16.0, color: Colors.white, fontFamily: "SanSerif"),
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 5),
           filled: true,
           fillColor: Colors.grey,
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.white,
               width: 1.0,
             ),
           ),
-
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
               color: Colors.white,
-              fontFamily: "SansSerif"// Floating label text color when focused
-          ),
-
-          focusedBorder: OutlineInputBorder(
+              fontFamily: "SansSerif" // Floating label text color when focused
+              ),
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.white,
               width: 1.0,
