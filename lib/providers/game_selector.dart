@@ -1,11 +1,13 @@
 // ignore_for_file: constant_identifier_names
-
+import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:developer' as dev;
 
 class TimeState {
   bool active;
@@ -22,6 +24,16 @@ class GameSelector with ChangeNotifier {
     _timer5 = Timer.periodic(const Duration(seconds: 1), (timer) {
       setTimeCheckBoxesState();
     });
+  }
+
+  postGameData(dynamic body) async {
+    print(body);
+    var headers = {'Content-Type': 'application/json'};
+    body = jsonEncode(body);
+    http.Response r = await http.post(Uri.parse("ENTER YOUR URL HERE"),
+        headers: headers, body: body);
+
+    return r.statusCode;
   }
 
   setTimeCheckBoxesState() async {

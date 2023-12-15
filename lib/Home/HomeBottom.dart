@@ -17,7 +17,11 @@ class HomeBottom extends StatelessWidget {
   final String user;
   final Function(String transID, int endpoint) onDataChanged;
 
-  const HomeBottom({super.key,required this.GrandTotal,required this.user, required this.onDataChanged});
+  const HomeBottom(
+      {super.key,
+      required this.GrandTotal,
+      required this.user,
+      required this.onDataChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +29,13 @@ class HomeBottom extends StatelessWidget {
     final GlobalKey _key = GlobalKey();
 
     String txnId = "TXN${DateTime.now().millisecondsSinceEpoch}";
-    String selectedCharacters = "";
+    List<String> selectedCharacters = [];
     String selectedTimes = "";
     int totalPoints = 0;
     DateTime now = DateTime.now();
-    String formattedDate =
-        DateFormat('dd/MM/yyyy').format(now);
-    String nextDayDate = DateFormat('dd/MM/yyyy')
-        .format(now.add(Duration(days: 1)));
+    String formattedDate = DateFormat('dd/MM/yyyy').format(now);
+    String nextDayDate =
+        DateFormat('dd/MM/yyyy').format(now.add(Duration(days: 1)));
     select.timesValues.forEach((key, value) {
       if (value.selected == true) {
         selectedTimes +=
@@ -214,6 +217,7 @@ class HomeBottom extends StatelessWidget {
                   height: 40.0,
                   child: ElevatedButton(
                     onPressed: () {
+                      selectedCharacters.clear();
                       final select =
                           Provider.of<GameSelector>(context, listen: false);
                       for (int i = 0; i < 10; i++) {
@@ -241,15 +245,14 @@ class HomeBottom extends StatelessWidget {
                           }
                         }
                       }
-                      
 
                       for (int i = 0; i < 20; i++) {
                         for (int j = 0; j < 10; j++) {
                           for (int k = 0; k < 10; k++) {
                             if (select.matrixList[i][j][k] != "" &&
                                 select.matrixList[i][j][k] != "0") {
-                              selectedCharacters +=
-                                  "${select.checkbox[i]}-$j$k - ${int.parse(select.matrixList[i][j][k] ?? "0") * 2}     ";
+                              selectedCharacters.add(
+                                  "${select.checkbox[i]}-$j$k - ${int.parse(select.matrixList[i][j][k] ?? "0") * 2}");
                               totalPoints += (int.parse(
                                       select.matrixList[i][j][k] ?? "0") *
                                   2);
@@ -257,6 +260,19 @@ class HomeBottom extends StatelessWidget {
                           }
                         }
                       }
+
+                      String slipDate = DateFormat('dd/MM/yyyy HH:MM:ss')
+                          .format(DateTime.now());
+
+                      final body = {
+                        "username": "prince",
+                        "transaction_id": txnId,
+                        "gamedate_times": selectedTimes.split("\n"),
+                        "slipdate_time": slipDate,
+                        "points": totalPoints.toString(),
+                        "GamePlay": selectedCharacters
+                      };
+
                       Dialog printDialog = Dialog(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0)),
@@ -324,7 +340,7 @@ class HomeBottom extends StatelessWidget {
                                         ),
                                         SizedBox(height: 5),
                                         Text(
-                                          "Slip DT : ${DateFormat('dd/MM/yyyy HH:MM:ss').format(DateTime.now())}",
+                                          "Slip DT : ${slipDate}",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -348,7 +364,7 @@ class HomeBottom extends StatelessWidget {
                                         ),
                                         SizedBox(height: 10),
                                         Text(
-                                          selectedCharacters,
+                                          selectedCharacters.join(" "),
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -385,7 +401,7 @@ class HomeBottom extends StatelessWidget {
                                       height: 40.0,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          onDataChanged(txnId,totalPoints);
+                                          onDataChanged(txnId, totalPoints);
                                           Navigator.of(context,
                                                   rootNavigator: true)
                                               .pop();
@@ -420,7 +436,7 @@ class HomeBottom extends StatelessWidget {
                                       child: ElevatedButton(
                                         onPressed: () async {
                                           // Convert the widget to an image
-                                          onDataChanged(txnId,totalPoints);
+                                          onDataChanged(txnId, totalPoints);
                                           final boundary = _key.currentContext!
                                                   .findRenderObject()
                                               as RenderRepaintBoundary;
@@ -444,6 +460,7 @@ class HomeBottom extends StatelessWidget {
                                                   'data:image/png;base64,${base64.encode(pngBytes)}')
                                             ..setAttribute('download', fileName)
                                             ..click();
+                                          await select.postGameData(body);
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:
@@ -519,13 +536,12 @@ class HomeBottom extends StatelessWidget {
                     width: 70.0,
                     height: 35.0,
                     child: TextField(
-                      controller:TextEditingController(text:"$GrandTotal"),
+                      controller: TextEditingController(text: "$GrandTotal"),
                       keyboardType:
                           TextInputType.number, // Set keyboard type to numeric
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter
-                            .digitsOnly, 
-                            // Allow only digits
+                        FilteringTextInputFormatter.digitsOnly,
+                        // Allow only digits
                       ],
                       style: TextStyle(
                           fontSize: 18.0,
@@ -557,7 +573,7 @@ class HomeBottom extends StatelessWidget {
                       width: 70.0,
                       height: 35.0,
                       child: TextField(
-                        controller:TextEditingController(text:"$GrandTotal"),
+                        controller: TextEditingController(text: "$GrandTotal"),
                         keyboardType: TextInputType
                             .number, // Set keyboard type to numeric
                         inputFormatters: <TextInputFormatter>[
@@ -608,7 +624,7 @@ class HomeBottom extends StatelessWidget {
                     width: 70.0,
                     height: 35.0,
                     child: TextField(
-                      controller:TextEditingController(text:"$GrandTotal"),
+                      controller: TextEditingController(text: "$GrandTotal"),
                       keyboardType:
                           TextInputType.number, // Set keyboard type to numeric
                       inputFormatters: <TextInputFormatter>[
@@ -645,7 +661,7 @@ class HomeBottom extends StatelessWidget {
                       width: 70.0,
                       height: 35.0,
                       child: TextField(
-                        controller:TextEditingController(text:"$GrandTotal"),
+                        controller: TextEditingController(text: "$GrandTotal"),
                         keyboardType: TextInputType
                             .number, // Set keyboard type to numeric
                         inputFormatters: <TextInputFormatter>[
