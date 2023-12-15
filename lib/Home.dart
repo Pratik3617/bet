@@ -36,116 +36,55 @@ class Home extends StatefulWidget {
 }
 
 class _QrCodeState extends State<Home> {
+  int GrandTotal = 0;
   late Timer _timer;
   late Timer _timer2;
-  late Timer _timer3;
-  late Timer _timer4;
-  late Timer _timer5;
-  late Duration _timeRemaining = Duration();
   Duration _remainingTime = Duration();
   DateTime _currentTime = DateTime.now();
-
-  // DateTime _targetTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 9, 30,);
-
+  String transId = "";
+  int endpoints = 0;
+  
   @override
   void initState() {
     super.initState();
-    // _setTimeCheckBoxState();
     _startTimer();
-    _startTimer2();
-    // _updateTimer();
-    _timeRemaining = _calculateTimeUntil9AM();
-    _timer4 = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      setState(() {
-        _timeRemaining = _calculateTimeUntil9AM();
-      });
-    });
-  }
-
-  Duration _calculateTimeUntil9AM() {
-    final now = DateTime.now();
-    DateTime target;
-    if (now.hour >= 22) {
-      // If it's past 10 PM, target the next day's 9 AM
-      target = DateTime(now.year, now.month, now.day + 1, 9);
-    } else {
-      // Otherwise, target today's 9 AM (will show 0 if it's past 9 AM but before 10 PM)
-      target = DateTime(now.year, now.month, now.day, 9);
-    }
-    return target.difference(now);
+    _startTimerFor15Min();
   }
 
   //next game timings
   List<String> times = [
-    "09:30:00 AM",
-    "09:45:00 AM",
-    "10:00:00 AM",
-    "10:15:00 AM",
-    "10:30:00 AM",
-    "10:45:00 AM",
-    "11:00:00 AM",
-    "11:15:00 AM",
-    "11:30:00 AM",
-    "11:45:00 AM",
-    "12:00:00 PM",
-    "12:15:00 PM",
-    "12:30:00 PM",
-    "12:45:00 PM",
-    "13:00:00 PM",
-    "13:15:00 PM",
-    "13:30:00 PM",
-    "13:45:00 PM",
-    "14:00:00 PM",
-    "14:15:00 PM",
-    "14:30:00 PM",
-    "14:45:00 PM",
-    "15:00:00 PM",
-    "15:15:00 PM",
-    "15:30:00 PM",
-    "15:45:00 PM",
-    "16:00:00 PM",
-    "16:15:00 PM",
-    "16:30:00 PM",
-    "16:45:00 PM",
-    "17:00:00 PM",
-    "17:15:00 PM",
-    "17:30:00 PM",
-    "17:45:00 PM",
-    "18:00:00 PM",
-    "18:15:00 PM",
-    "18:30:00 PM",
-    "18:45:00 PM",
-    "19:00:00 PM",
-    "19:15:00 PM",
-    "19:30:00 PM",
-    "19:45:00 PM",
-    "20:00:00 PM",
-    "20:15:00 PM",
-    "20:30:00 PM",
-    "20:45:00 PM",
-    "21:00:00 PM",
-    "21:15:00 PM",
-    "21:30:00 PM",
-    "21:45:00 PM",
-    "22:00:00 PM",
+    "09:30:00 AM", "09:45:00 AM", "10:00:00 AM", "10:15:00 AM", "10:30:00 AM", "10:45:00 AM",
+    "11:00:00 AM", "11:15:00 AM", "11:30:00 AM", "11:45:00 AM", "12:00:00 PM", "12:15:00 PM", "12:30:00 PM",
+    "12:45:00 PM", "01:00:00 PM", "01:15:00 PM", "01:30:00 PM", "01:45:00 PM", "02:00:00 PM", "02:15:00 PM",
+    "02:30:00 PM", "02:45:00 PM", "03:00:00 PM", "03:15:00 PM", "03:30:00 PM", "03:45:00 PM", "04:00:00 PM",
+    "04:15:00 PM", "04:30:00 PM", "04:45:00 PM", "05:00:00 PM", "05:15:00 PM", "05:30:00 PM", "05:45:00 PM",
+    "06:00:00 PM", "06:15:00 PM", "06:30:00 PM", "06:45:00 PM", "07:00:00 PM", "07:15:00 PM", "07:30:00 PM",
+    "07:45:00 PM", "08:00:00 PM", "08:15:00 PM", "08:30:00 PM", "08:45:00 PM", "09:00:00 PM", "09:15:00 PM",
+    "09:30:00 PM", "09:45:00 PM", "10:00:00 PM"
   ];
+
   int _currentIndex = 0;
 
-  void _startTimer2() {
-    _timer3 = Timer.periodic(const Duration(seconds: 1), (timer) {
+  void _startTimer() {
+    _timer2 = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _currentTime = DateTime.now();
         int hours = _currentTime.hour;
         int min = _currentTime.minute;
 
         while (_currentIndex < times.length - 1) {
-          int h = int.parse(times[_currentIndex].substring(0, 2));
-          int m = int.parse(times[_currentIndex].substring(3, 5));
-          if (h == hours) {
-            if (m > min) {
+          int h = int.parse(times[_currentIndex].substring(0,2));
+          int m = int.parse(times[_currentIndex].substring(3,5));
+          if(times[_currentIndex].substring(9,11)!="AM"){
+            if(times[_currentIndex].substring(0,2)!="12"){
+              h= h + 12;
+            }
+          }
+          if(h==hours){
+            if(m>min){
               break;
             }
-          } else if (h > hours) {
+          }else if(h>hours){
             break;
           }
           _currentIndex++;
@@ -157,42 +96,46 @@ class _QrCodeState extends State<Home> {
     });
   }
 
-  // void _updateTimer() {
-  //   _timer2 = Timer.periodic(const Duration(minutes: 15), (timer) {
-  //     setState(() {
-  //       _currentTime = DateTime.now();
-  //       if (_targetTime.isBefore(_currentTime)) {
-  //         _targetTime = _targetTime.add(const Duration(minutes: 15));
-  //       }
-  //     });
-  //   });
-  // }
 
-  // showing dynamic 15 minutes timer
-  void _startTimer() {
+  void _startTimerFor15Min() {
     final now = DateTime.now();
-    final next15Min =
-        DateTime(now.year, now.month, now.day, now.hour, now.minute)
-            .add(Duration(minutes: 15 - (now.minute % 15)));
 
-    _remainingTime = next15Min.difference(now);
+    if ((now.hour >= 22 && now.minute >= 00) || (now.hour <=9  && now.minute <= 30)) {
+      // If the current time is 08:30 pm or later, calculate time until 9:30 am next day
+      final tomorrowStartTime = DateTime(now.year, now.month, now.day + 1, 9, 30);
+      _remainingTime = tomorrowStartTime.difference(now);
+    } else {
+      // Calculate time until the next 15-minute mark
+      final next15Min = DateTime(now.year, now.month, now.day, now.hour, now.minute)
+          .add(Duration(minutes: 15 - (now.minute % 15)));
+
+      _remainingTime = next15Min.difference(now);
+    }
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_remainingTime.inSeconds > 0) {
           _remainingTime -= const Duration(seconds: 1);
         } else {
-          // Recalculate for the next 15-minute mark
+          // Recalculate for the next 15-minute mark or 9:30 am next day
           final now = DateTime.now();
-          final next15Min =
-              DateTime(now.year, now.month, now.day, now.hour, now.minute)
-                  .add(Duration(minutes: 15 - (now.minute % 15)));
 
-          _remainingTime = next15Min.difference(now);
+          if ((now.hour >= 22 && now.minute >= 00) || (now.hour <= 9  && now.minute <= 30)) {
+            // If the current time is 08:30 pm or later, calculate time until 9:30 am next day
+            final tomorrowStartTime = DateTime(now.year, now.month, now.day + 1, 9, 30);
+            _remainingTime = tomorrowStartTime.difference(now);
+          } else {
+            // Calculate time until the next 15-minute mark
+            final next15Min = DateTime(now.year, now.month, now.day, now.hour, now.minute)
+                .add(Duration(minutes: 15 - (now.minute % 15)));
+
+            _remainingTime = next15Min.difference(now);
+          }
         }
       });
     });
   }
+
 
   //api task
   List<dynamic> convertTimeFormat(List<dynamic> localDataList) {
@@ -233,41 +176,72 @@ class _QrCodeState extends State<Home> {
     }
   }
 
-  // void _setTimeCheckBoxState() {
-  //   final function = Provider.of<GameSelector>(context, listen: false)
-  //       .setTimeCheckBoxesState();
-  //   _timer5 = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     function();
-  //   });
-  // }
+  void updateData(String id, int total) {
+    setState(() {
+      transId = id;
+      endpoints = total;
+    });
+  }
+
+  void _showModal(BuildContext context) {
+  // Show modal with information for the clicked TSN
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        content: Container(
+          width: 300.0,
+          height: 100.0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  'You have won 2000Rs',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   @override
   void dispose() {
-    _timer.cancel();
-    _timer2.cancel();
-    _timer3.cancel();
-    _timer4.cancel();
-    _timer5.cancel();
+    _timer?.cancel();
+    _timer2?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Extract hours, minutes, and seconds from the duration
-    final hours = _remainingTime.inHours;
-    final minutes = (_remainingTime.inMinutes % 60);
-    final seconds = (_remainingTime.inSeconds % 60);
-
-    String hoursStr =
-        _timeRemaining.inHours.remainder(24).toString().padLeft(2, '0');
-    String minutesStr =
-        _timeRemaining.inMinutes.remainder(60).toString().padLeft(2, '0');
-    String secondsStr =
-        _timeRemaining.inSeconds.remainder(60).toString().padLeft(2, '0');
-
+    TextEditingController _editingController = TextEditingController(text: "");
     DateTime now1 = DateTime.now();
     String formattedDate = "${now1.day}-${now1.month}-${now1.year}";
     String formattedTime = "${now1.hour}:${now1.minute}:${now1.second}";
+
+    String _formatDuration(Duration duration) {
+      String twoDigits(int n) {
+        if (n >= 10) return "$n";
+        return "0$n";
+      }
+      return "${twoDigits(duration.inHours)}:${twoDigits(duration.inMinutes.remainder(60))}:${twoDigits(duration.inSeconds.remainder(60))}";
+    }
+
     final size = MediaQuery.of(context).size;
 
     return MaterialApp(
@@ -573,21 +547,15 @@ class _QrCodeState extends State<Home> {
                                   width: 2.0,
                                 )),
                             child: Center(
-                              child: DateTime.now().hour >= 22 ||
-                                      DateTime.now().hour <= 9
-                                  ? Text(
-                                      'Time Left : $hoursStr:${minutesStr.toString().padLeft(2, '0')}:${secondsStr.toString().padLeft(2, '0')}',
-                                      style: const TextStyle(
-                                          fontFamily: "SansSerif",
-                                          color: Colors.black,
-                                          letterSpacing: 2,
-                                          fontSize: 15))
-                                  : Text(
-                                      'Time Left : $hours:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                                      style: const TextStyle(
-                                          fontFamily: "SansSerif",
-                                          color: Colors.black,
-                                          letterSpacing: 2)),
+                              child: Text(
+                                'Time Left : ${_formatDuration(_remainingTime)}',
+                                style: const TextStyle(
+                                    fontFamily: "SansSerif",
+                                    color: Colors.black,
+                                    letterSpacing: 2,
+                                    fontSize: 15
+                                )
+                            )
                             )),
                       ],
                     ),
@@ -674,7 +642,7 @@ class _QrCodeState extends State<Home> {
                                 ),
                                 Head_Input(
                                   label: "Transaction Id",
-                                  controller: TextEditingController(),
+                                  controller: TextEditingController(text: "${transId}"),
                                 ),
                               ],
                             ),
@@ -702,7 +670,7 @@ class _QrCodeState extends State<Home> {
                                 ),
                                 Head_Input(
                                   label: "End Points",
-                                  controller: TextEditingController(),
+                                  controller: TextEditingController(text: "${endpoints}"),
                                 ),
                               ],
                             ),
@@ -742,7 +710,9 @@ class _QrCodeState extends State<Home> {
                                     ),
                                   );
                                 }),
-                                Button_G(text: "REDEEM", onPressed: () {}),
+                                Button_G(text: "REDEEM", onPressed: () {
+                                  _showModal(context);
+                                }),
                               ],
                             ),
                           )
@@ -770,13 +740,20 @@ class _QrCodeState extends State<Home> {
                       return HomeMiddleTwo(
                         controllers: value.controllers,
                         context: context,
+                        onGrandTotalChange: (newValue){
+                          GrandTotal = newValue;
+                        }
                       );
                     }),
                     HomeRight(),
                   ],
                 ),
               ),
-              HomeBottom(),
+              Consumer<UserProvider>(
+                  builder:
+                      (context, userProvider, child){
+                      return HomeBottom(GrandTotal: GrandTotal, onDataChanged: updateData, user: userProvider.user?.username.toUpperCase() ?? '');
+                  })
             ],
           ),
         ),
