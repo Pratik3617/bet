@@ -7,23 +7,51 @@ class Transaction extends StatelessWidget {
     Map<String, List<List<String>>> transactionData = {
       'T00030392031': [
         ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120342', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120343', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120344', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
       ],
       'T00030392032': [
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120345', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120346', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120347', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120348', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
       ],
       'T00030392033': [
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
-        ['A0253TUW120341', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120349', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120350', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120351', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
+        ['A0253TUW120352', '2D coupon', '29/11/2023 04:30PM', '29/11/2023 04:30PM', '10', 'N'],
       ],
     };
+
+
+    void _showModal(BuildContext context, String transactionId, String tsn) {
+      // Show modal with information for the clicked TSN
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Details for Transaction ID: $transactionId'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('TSN: $tsn'),
+                // Add more information as needed
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     List<DataRow> rows = [];
 
@@ -33,22 +61,49 @@ class Transaction extends StatelessWidget {
 
         // Add the transaction ID cell only in the first row of the group
         if (i == 0) {
-          cells.add(DataCell(Text(transactionId)));
+          cells.add(DataCell(Text(transactionId,style: TextStyle(color: Color.fromARGB(255, 0, 76, 139)))));
         } else {
           // Add an empty cell for the transaction ID in subsequent rows
           cells.add(DataCell(Text('')));
         }
 
         // Add the other cells for the row
-        cells.addAll(rowList[i].map((data) => DataCell(Text(data))));
+        for (int j = 0; j < rowList[i].length; j++) {
+          cells.add(
+            DataCell(
+              // Wrap TSN cells only with GestureDetector and MouseRegion
+              j == 0
+                  ? MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Show modal for the clicked TSN
+                          _showModal(context, transactionId, rowList[i][j]);
+                        },
+                        child: Text(rowList[i][j],style: TextStyle(color: Color.fromARGB(255, 14, 145, 253),fontWeight: FontWeight.w400,decoration: TextDecoration.underline,
+                        decorationColor: Colors.blue,),),
+                      ),
+                    )
+                  : Text(rowList[i][j],style: TextStyle(color: Color.fromARGB(255, 0, 76, 139))),
+            ),
+          );
+        }
 
         // Ensure that each row has the correct number of cells
         while (cells.length < 7) {
           cells.add(DataCell(Text('')));
         }
 
-        // Add the DataRow to the list
-        rows.add(DataRow(cells: cells));
+        // Set the background color based on the row index
+        Color backgroundColor = i % 2 == 0 ? Color.fromARGB(255, 226, 224, 224)! : Colors.white;
+
+        // Add the DataRow to the list with the specified background color
+        rows.add(DataRow(
+          cells: cells,
+          color: MaterialStateColor.resolveWith((Set<MaterialState> states) {
+            return backgroundColor;
+          }),
+        ));
       }
     });
 

@@ -13,12 +13,32 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class HomeBottom extends StatelessWidget {
-  const HomeBottom({super.key});
+  final int GrandTotal;
+  final String user;
+  final Function(String transID, int endpoint) onDataChanged;
+
+  const HomeBottom({super.key,required this.GrandTotal,required this.user, required this.onDataChanged});
 
   @override
   Widget build(BuildContext context) {
     final select = Provider.of<GameSelector>(context, listen: false);
     final GlobalKey _key = GlobalKey();
+
+    String txnId = "TXN${DateTime.now().millisecondsSinceEpoch}";
+    String selectedCharacters = "";
+    String selectedTimes = "";
+    int totalPoints = 0;
+    DateTime now = DateTime.now();
+    String formattedDate =
+        DateFormat('dd/MM/yyyy').format(now);
+    String nextDayDate = DateFormat('dd/MM/yyyy')
+        .format(now.add(Duration(days: 1)));
+    select.timesValues.forEach((key, value) {
+      if (value.selected == true) {
+        selectedTimes +=
+            "${select.showNextDayTimes ? nextDayDate : formattedDate} $key \n";
+      }
+    });
 
     return Container(
       alignment: Alignment.center,
@@ -221,22 +241,7 @@ class HomeBottom extends StatelessWidget {
                           }
                         }
                       }
-                      String txnId =
-                          "TXN${DateTime.now().millisecondsSinceEpoch}";
-                      String selectedCharacters = "";
-                      String selectedTimes = "";
-                      int totalPoints = 0;
-                      DateTime now = DateTime.now();
-                      String formattedDate =
-                          DateFormat('dd/MM/yyyy').format(now);
-                      String nextDayDate = DateFormat('dd/MM/yyyy')
-                          .format(now.add(Duration(days: 1)));
-                      select.timesValues.forEach((key, value) {
-                        if (value.selected == true) {
-                          selectedTimes +=
-                              "${select.showNextDayTimes ? nextDayDate : formattedDate} $key \n";
-                        }
-                      });
+                      
 
                       for (int i = 0; i < 20; i++) {
                         for (int j = 0; j < 10; j++) {
@@ -303,7 +308,7 @@ class HomeBottom extends StatelessWidget {
                                         ),
                                         SizedBox(height: 5),
                                         Text(
-                                          "PRATEEK",
+                                          "${user}",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -319,7 +324,7 @@ class HomeBottom extends StatelessWidget {
                                         ),
                                         SizedBox(height: 5),
                                         Text(
-                                          "Slip DT : ${DateFormat('dd/MM/yyyy hh:mm:ss').format(DateTime.now())}",
+                                          "Slip DT : ${DateFormat('dd/MM/yyyy HH:MM:ss').format(DateTime.now())}",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -380,6 +385,7 @@ class HomeBottom extends StatelessWidget {
                                       height: 40.0,
                                       child: ElevatedButton(
                                         onPressed: () {
+                                          onDataChanged(txnId,totalPoints);
                                           Navigator.of(context,
                                                   rootNavigator: true)
                                               .pop();
@@ -414,6 +420,7 @@ class HomeBottom extends StatelessWidget {
                                       child: ElevatedButton(
                                         onPressed: () async {
                                           // Convert the widget to an image
+                                          onDataChanged(txnId,totalPoints);
                                           final boundary = _key.currentContext!
                                                   .findRenderObject()
                                               as RenderRepaintBoundary;
@@ -512,18 +519,22 @@ class HomeBottom extends StatelessWidget {
                     width: 70.0,
                     height: 35.0,
                     child: TextField(
+                      controller:TextEditingController(text:"$GrandTotal"),
                       keyboardType:
                           TextInputType.number, // Set keyboard type to numeric
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter
-                            .digitsOnly, // Allow only digits
+                            .digitsOnly, 
+                            // Allow only digits
                       ],
                       style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
                           fontFamily: "SanSerif"),
                       decoration: InputDecoration(
                         filled: true,
+                        contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 3),
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -546,6 +557,7 @@ class HomeBottom extends StatelessWidget {
                       width: 70.0,
                       height: 35.0,
                       child: TextField(
+                        controller:TextEditingController(text:"$GrandTotal"),
                         keyboardType: TextInputType
                             .number, // Set keyboard type to numeric
                         inputFormatters: <TextInputFormatter>[
@@ -553,12 +565,14 @@ class HomeBottom extends StatelessWidget {
                               .digitsOnly, // Allow only digits
                         ],
                         style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
                             color: Colors.black,
                             fontFamily: "SanSerif"),
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
+                          contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 3),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.white,
@@ -594,6 +608,7 @@ class HomeBottom extends StatelessWidget {
                     width: 70.0,
                     height: 35.0,
                     child: TextField(
+                      controller:TextEditingController(text:"$GrandTotal"),
                       keyboardType:
                           TextInputType.number, // Set keyboard type to numeric
                       inputFormatters: <TextInputFormatter>[
@@ -601,11 +616,13 @@ class HomeBottom extends StatelessWidget {
                             .digitsOnly, // Allow only digits
                       ],
                       style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 18.0,
                           color: Colors.black,
+                          fontWeight: FontWeight.bold,
                           fontFamily: "SanSerif"),
                       decoration: InputDecoration(
                         filled: true,
+                        contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 3),
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -628,6 +645,7 @@ class HomeBottom extends StatelessWidget {
                       width: 70.0,
                       height: 35.0,
                       child: TextField(
+                        controller:TextEditingController(text:"$GrandTotal"),
                         keyboardType: TextInputType
                             .number, // Set keyboard type to numeric
                         inputFormatters: <TextInputFormatter>[
@@ -635,11 +653,13 @@ class HomeBottom extends StatelessWidget {
                               .digitsOnly, // Allow only digits
                         ],
                         style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 18.0,
                             color: Colors.black,
+                            fontWeight: FontWeight.bold,
                             fontFamily: "SanSerif"),
                         decoration: InputDecoration(
                           filled: true,
+                          contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 3),
                           fillColor: Colors.white,
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
