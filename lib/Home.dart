@@ -43,7 +43,7 @@ class _QrCodeState extends State<Home> {
   DateTime _currentTime = DateTime.now();
   String transId = "";
   int endpoints = 0;
-  
+
   @override
   void initState() {
     super.initState();
@@ -53,14 +53,57 @@ class _QrCodeState extends State<Home> {
 
   //next game timings
   List<String> times = [
-    "09:30:00 AM", "09:45:00 AM", "10:00:00 AM", "10:15:00 AM", "10:30:00 AM", "10:45:00 AM",
-    "11:00:00 AM", "11:15:00 AM", "11:30:00 AM", "11:45:00 AM", "12:00:00 PM", "12:15:00 PM", "12:30:00 PM",
-    "12:45:00 PM", "01:00:00 PM", "01:15:00 PM", "01:30:00 PM", "01:45:00 PM", "02:00:00 PM", "02:15:00 PM",
-    "02:30:00 PM", "02:45:00 PM", "03:00:00 PM", "03:15:00 PM", "03:30:00 PM", "03:45:00 PM", "04:00:00 PM",
-    "04:15:00 PM", "04:30:00 PM", "04:45:00 PM", "05:00:00 PM", "05:15:00 PM", "05:30:00 PM", "05:45:00 PM",
-    "06:00:00 PM", "06:15:00 PM", "06:30:00 PM", "06:45:00 PM", "07:00:00 PM", "07:15:00 PM", "07:30:00 PM",
-    "07:45:00 PM", "08:00:00 PM", "08:15:00 PM", "08:30:00 PM", "08:45:00 PM", "09:00:00 PM", "09:15:00 PM",
-    "09:30:00 PM", "09:45:00 PM", "10:00:00 PM"
+    "09:30:00 AM",
+    "09:45:00 AM",
+    "10:00:00 AM",
+    "10:15:00 AM",
+    "10:30:00 AM",
+    "10:45:00 AM",
+    "11:00:00 AM",
+    "11:15:00 AM",
+    "11:30:00 AM",
+    "11:45:00 AM",
+    "12:00:00 PM",
+    "12:15:00 PM",
+    "12:30:00 PM",
+    "12:45:00 PM",
+    "01:00:00 PM",
+    "01:15:00 PM",
+    "01:30:00 PM",
+    "01:45:00 PM",
+    "02:00:00 PM",
+    "02:15:00 PM",
+    "02:30:00 PM",
+    "02:45:00 PM",
+    "03:00:00 PM",
+    "03:15:00 PM",
+    "03:30:00 PM",
+    "03:45:00 PM",
+    "04:00:00 PM",
+    "04:15:00 PM",
+    "04:30:00 PM",
+    "04:45:00 PM",
+    "05:00:00 PM",
+    "05:15:00 PM",
+    "05:30:00 PM",
+    "05:45:00 PM",
+    "06:00:00 PM",
+    "06:15:00 PM",
+    "06:30:00 PM",
+    "06:45:00 PM",
+    "07:00:00 PM",
+    "07:15:00 PM",
+    "07:30:00 PM",
+    "07:45:00 PM",
+    "08:00:00 PM",
+    "08:15:00 PM",
+    "08:30:00 PM",
+    "08:45:00 PM",
+    "09:00:00 PM",
+    "09:15:00 PM",
+    "09:30:00 PM",
+    "09:45:00 PM",
+    "10:00:00 PM"
   ];
 
   int _currentIndex = 0;
@@ -73,18 +116,18 @@ class _QrCodeState extends State<Home> {
         int min = _currentTime.minute;
 
         while (_currentIndex < times.length - 1) {
-          int h = int.parse(times[_currentIndex].substring(0,2));
-          int m = int.parse(times[_currentIndex].substring(3,5));
-          if(times[_currentIndex].substring(9,11)!="AM"){
-            if(times[_currentIndex].substring(0,2)!="12"){
-              h= h + 12;
+          int h = int.parse(times[_currentIndex].substring(0, 2));
+          int m = int.parse(times[_currentIndex].substring(3, 5));
+          if (times[_currentIndex].substring(9, 11) != "AM") {
+            if (times[_currentIndex].substring(0, 2) != "12") {
+              h = h + 12;
             }
           }
-          if(h==hours){
-            if(m>min){
+          if (h == hours) {
+            if (m > min) {
               break;
             }
-          }else if(h>hours){
+          } else if (h > hours) {
             break;
           }
           _currentIndex++;
@@ -96,18 +139,20 @@ class _QrCodeState extends State<Home> {
     });
   }
 
-
   void _startTimerFor15Min() {
     final now = DateTime.now();
 
-    if ((now.hour >= 22 && now.minute >= 00) || (now.hour <=9  && now.minute <= 30)) {
+    if ((now.hour >= 22 && now.minute >= 00) ||
+        (now.hour <= 9 && now.minute <= 30)) {
       // If the current time is 08:30 pm or later, calculate time until 9:30 am next day
-      final tomorrowStartTime = DateTime(now.year, now.month, now.day + 1, 9, 30);
+      final tomorrowStartTime =
+          DateTime(now.year, now.month, now.day + 1, 9, 30);
       _remainingTime = tomorrowStartTime.difference(now);
     } else {
       // Calculate time until the next 15-minute mark
-      final next15Min = DateTime(now.year, now.month, now.day, now.hour, now.minute)
-          .add(Duration(minutes: 15 - (now.minute % 15)));
+      final next15Min =
+          DateTime(now.year, now.month, now.day, now.hour, now.minute)
+              .add(Duration(minutes: 15 - (now.minute % 15)));
 
       _remainingTime = next15Min.difference(now);
     }
@@ -120,14 +165,17 @@ class _QrCodeState extends State<Home> {
           // Recalculate for the next 15-minute mark or 9:30 am next day
           final now = DateTime.now();
 
-          if ((now.hour >= 22 && now.minute >= 00) || (now.hour <= 9  && now.minute <= 30)) {
+          if ((now.hour >= 22 && now.minute >= 00) ||
+              (now.hour <= 9 && now.minute <= 30)) {
             // If the current time is 08:30 pm or later, calculate time until 9:30 am next day
-            final tomorrowStartTime = DateTime(now.year, now.month, now.day + 1, 9, 30);
+            final tomorrowStartTime =
+                DateTime(now.year, now.month, now.day + 1, 9, 30);
             _remainingTime = tomorrowStartTime.difference(now);
           } else {
             // Calculate time until the next 15-minute mark
-            final next15Min = DateTime(now.year, now.month, now.day, now.hour, now.minute)
-                .add(Duration(minutes: 15 - (now.minute % 15)));
+            final next15Min =
+                DateTime(now.year, now.month, now.day, now.hour, now.minute)
+                    .add(Duration(minutes: 15 - (now.minute % 15)));
 
             _remainingTime = next15Min.difference(now);
           }
@@ -135,7 +183,6 @@ class _QrCodeState extends State<Home> {
       });
     });
   }
-
 
   //api task
   List<dynamic> convertTimeFormat(List<dynamic> localDataList) {
@@ -184,41 +231,40 @@ class _QrCodeState extends State<Home> {
   }
 
   void _showModal(BuildContext context) {
-  // Show modal with information for the clicked TSN
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        content: Container(
-          width: 300.0,
-          height: 100.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  'You have won 2000Rs',
-                  textAlign: TextAlign.center,
+    // Show modal with information for the clicked TSN
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Container(
+            width: 300.0,
+            height: 100.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    'You have won 2000Rs',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Close'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void dispose() {
@@ -239,6 +285,7 @@ class _QrCodeState extends State<Home> {
         if (n >= 10) return "$n";
         return "0$n";
       }
+
       return "${twoDigits(duration.inHours)}:${twoDigits(duration.inMinutes.remainder(60))}:${twoDigits(duration.inSeconds.remainder(60))}";
     }
 
@@ -277,6 +324,55 @@ class _QrCodeState extends State<Home> {
                                   children: [
                                     Row(
                                       children: [
+                                        InputField(
+                                            width: 400.0,
+                                            height: 28.0,
+                                            fontSize: 16,
+                                            decoration: BoxDecoration(
+                                                color: Colors.yellow.shade300),
+                                            text:
+                                                "(Enter number of games to select)",
+                                            onChange: (v) {
+                                              try {
+                                                DateTime now = DateTime.now();
+                                                DateTime tomorrow = DateTime(
+                                                    now.year,
+                                                    now.month,
+                                                    now.day + 1);
+                                                DateTime tomorrowTime =
+                                                    DateTime(
+                                                        tomorrow.year,
+                                                        tomorrow.month,
+                                                        tomorrow.day,
+                                                        0,
+                                                        0,
+                                                        0);
+                                                int selection = int.parse(v);
+                                                int count = 0;
+                                                for (var element
+                                                    in value.times) {
+                                                  value.timesValues[element]!
+                                                      .selected = false;
+                                                }
+                                                for (var element
+                                                    in value.times) {
+                                                  if (!value.isTimePassed(
+                                                      element,
+                                                      value.showNextDayTimes
+                                                          ? tomorrowTime
+                                                          : now)) {
+                                                    if (count >= selection) {
+                                                      break;
+                                                    }
+                                                    count++;
+                                                    value.timesValues[element]!
+                                                        .selected = true;
+                                                  }
+                                                }
+                                              } catch (e) {
+                                                print("Enter a number only");
+                                              }
+                                            }),
                                         Check_Button(
                                             width: 250.0,
                                             height: 28.0,
@@ -547,16 +643,13 @@ class _QrCodeState extends State<Home> {
                                   width: 2.0,
                                 )),
                             child: Center(
-                              child: Text(
-                                'Time Left : ${_formatDuration(_remainingTime)}',
-                                style: const TextStyle(
-                                    fontFamily: "SansSerif",
-                                    color: Colors.black,
-                                    letterSpacing: 2,
-                                    fontSize: 15
-                                )
-                            )
-                            )),
+                                child: Text(
+                                    'Time Left : ${_formatDuration(_remainingTime)}',
+                                    style: const TextStyle(
+                                        fontFamily: "SansSerif",
+                                        color: Colors.black,
+                                        letterSpacing: 2,
+                                        fontSize: 15)))),
                       ],
                     ),
                   ],
@@ -642,7 +735,8 @@ class _QrCodeState extends State<Home> {
                                 ),
                                 Head_Input(
                                   label: "Transaction Id",
-                                  controller: TextEditingController(text: "${transId}"),
+                                  controller:
+                                      TextEditingController(text: "${transId}"),
                                 ),
                               ],
                             ),
@@ -670,7 +764,8 @@ class _QrCodeState extends State<Home> {
                                 ),
                                 Head_Input(
                                   label: "End Points",
-                                  controller: TextEditingController(text: "${endpoints}"),
+                                  controller: TextEditingController(
+                                      text: "${endpoints}"),
                                 ),
                               ],
                             ),
@@ -710,9 +805,11 @@ class _QrCodeState extends State<Home> {
                                     ),
                                   );
                                 }),
-                                Button_G(text: "REDEEM", onPressed: () {
-                                  _showModal(context);
-                                }),
+                                Button_G(
+                                    text: "REDEEM",
+                                    onPressed: () {
+                                      _showModal(context);
+                                    }),
                               ],
                             ),
                           )
@@ -738,22 +835,22 @@ class _QrCodeState extends State<Home> {
                     ),
                     Consumer<GameSelector>(builder: (context, value, child) {
                       return HomeMiddleTwo(
-                        controllers: value.controllers,
-                        context: context,
-                        onGrandTotalChange: (newValue){
-                          GrandTotal = newValue;
-                        }
-                      );
+                          controllers: value.controllers,
+                          context: context,
+                          onGrandTotalChange: (newValue) {
+                            GrandTotal = newValue;
+                          });
                     }),
                     HomeRight(),
                   ],
                 ),
               ),
-              Consumer<UserProvider>(
-                  builder:
-                      (context, userProvider, child){
-                      return HomeBottom(GrandTotal: GrandTotal, onDataChanged: updateData, user: userProvider.user?.username.toUpperCase() ?? '');
-                  })
+              Consumer<UserProvider>(builder: (context, userProvider, child) {
+                return HomeBottom(
+                    GrandTotal: GrandTotal,
+                    onDataChanged: updateData,
+                    user: userProvider.user?.username.toUpperCase() ?? '');
+              })
             ],
           ),
         ),
