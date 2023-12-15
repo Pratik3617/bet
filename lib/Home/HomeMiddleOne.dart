@@ -469,6 +469,16 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                                       [calculatedIndex2]
                                   .text = v;
 
+                              select.controllers[index2][index1].text = v;
+                              select.controllers[calculatedIndex2][index1]
+                                  .text = v;
+                              select.controllers[index2][calculatedIndex1]
+                                  .text = v;
+                              select
+                                  .controllers[calculatedIndex2]
+                                      [calculatedIndex1]
+                                  .text = v;
+
                               // Set the selection after updating the text
                               select.controllers[index1][index2].selection =
                                   TextSelection.collapsed(offset: v.length);
