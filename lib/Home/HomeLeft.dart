@@ -15,12 +15,14 @@ class _InputPageState extends State<HomeLeft> {
   @override
   Widget build(BuildContext context) {
     // final select = Provider.of<GameSelector>(context);
+    MediaQueryData mediaQuery = MediaQuery.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            width: 190.0,
-            height: 40.0,
+            width: mediaQuery.size.width * 0.125,
+            height: mediaQuery.size.height * 0.05,
             margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -55,8 +57,8 @@ class _InputPageState extends State<HomeLeft> {
               },
             )),
         Container(
-          width: 190.0,
-          height: 38.0,
+          width: mediaQuery.size.width * 0.125,
+          height: mediaQuery.size.height * 0.05,
           margin: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 0.0),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.white, width: 2.0),
@@ -66,7 +68,7 @@ class _InputPageState extends State<HomeLeft> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 93.0,
+                width: mediaQuery.size.width * 0.06,
                 height: 38.0,
                 alignment: Alignment.center,
                 color: Colors.green,
@@ -76,8 +78,8 @@ class _InputPageState extends State<HomeLeft> {
                     )),
               ),
               Container(
-                width: 93.0,
-                height: 38.0,
+                width: mediaQuery.size.width * 0.06,
+                height:  mediaQuery.size.height * 0.05,
                 alignment: Alignment.center,
                 color: Colors.yellow[600],
                 child: const Text("Pg. Down",
@@ -92,15 +94,15 @@ class _InputPageState extends State<HomeLeft> {
           Consumer<GameSelector>(
             builder: (context, select, child) {
               return Container(
-                width: 190.0,
-                height: 38.0,
+                width: mediaQuery.size.width * 0.125,
+                height:  mediaQuery.size.height * 0.05,
                 margin: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Check_Button(
-                        width: 93.0,
-                        height: 38.0,
+                        width: mediaQuery.size.width * 0.0625,
+                        height:  mediaQuery.size.height * 0.05,
                         isChecked: select.atIsChecked || select.ajIsChecked
                             ? true
                             : select.activeMatrix == select.checkbox[i],
@@ -118,8 +120,8 @@ class _InputPageState extends State<HomeLeft> {
                               select.checkbox[i], value);
                         }),
                     Check_Button(
-                        width: 93.0,
-                        height: 38.0,
+                        width: mediaQuery.size.width * 0.0625,
+                        height:  mediaQuery.size.height * 0.05,
                         isChecked: select.atIsChecked || select.ktIsChecked
                             ? true
                             : select.activeMatrix == select.checkbox[i + 10],

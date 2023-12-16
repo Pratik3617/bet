@@ -10,16 +10,17 @@ class PointsBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
+    MediaQueryData mediaQuery = MediaQuery.of(context);
     return Container(
-      width: 150.0,
-      height: 38.0,
+      width: mediaQuery.size.width * 0.1,
+      height: mediaQuery.size.height * 0.05,
       margin: const EdgeInsets.fromLTRB(4.0, 2.0, 0.0, 0.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-              width: 73.0,
-              height: 38.0,
+              width: mediaQuery.size.width * 0.049,
+              height: mediaQuery.size.height * 0.05,
               alignment: Alignment.center,
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
               decoration: BoxDecoration(
@@ -46,8 +47,8 @@ class PointsBlock extends StatelessWidget {
               )
           ),
           Container(
-              width: 73.0,
-              height: 38.0,
+              width: mediaQuery.size.width * 0.049,
+              height: mediaQuery.size.height * 0.05,
               alignment: Alignment.center,
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
               decoration: BoxDecoration(

@@ -61,7 +61,7 @@ class Transaction extends StatelessWidget {
 
         // Add the transaction ID cell only in the first row of the group
         if (i == 0) {
-          cells.add(DataCell(Text(transactionId,style: TextStyle(color: Color.fromARGB(255, 0, 76, 139)))));
+          cells.add(DataCell(Text(transactionId,style: TextStyle(color: Colors.white))));
         } else {
           // Add an empty cell for the transaction ID in subsequent rows
           cells.add(DataCell(Text('')));
@@ -80,11 +80,11 @@ class Transaction extends StatelessWidget {
                           // Show modal for the clicked TSN
                           _showModal(context, transactionId, rowList[i][j]);
                         },
-                        child: Text(rowList[i][j],style: TextStyle(color: Color.fromARGB(255, 14, 145, 253),fontWeight: FontWeight.w400,decoration: TextDecoration.underline,
+                        child: Text(rowList[i][j],style: TextStyle(color: Colors.white,fontWeight: FontWeight.w400,decoration: TextDecoration.underline,
                         decorationColor: Colors.blue,),),
                       ),
                     )
-                  : Text(rowList[i][j],style: TextStyle(color: Color.fromARGB(255, 0, 76, 139))),
+                  : Text(rowList[i][j],style: TextStyle(color: Colors.white)),
             ),
           );
         }
@@ -95,14 +95,11 @@ class Transaction extends StatelessWidget {
         }
 
         // Set the background color based on the row index
-        Color backgroundColor = i % 2 == 0 ? Color.fromARGB(255, 226, 224, 224)! : Colors.white;
+        // Color backgroundColor = i % 2 == 0 ? Color.fromARGB(255, 226, 224, 224)! : Colors.white;
 
         // Add the DataRow to the list with the specified background color
         rows.add(DataRow(
           cells: cells,
-          color: MaterialStateColor.resolveWith((Set<MaterialState> states) {
-            return backgroundColor;
-          }),
         ));
       }
     });
@@ -130,11 +127,13 @@ class Transaction extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 42, 41, 41),
+        body: SingleChildScrollView(
         child: Center(
             child: Container(
               margin: EdgeInsets.only(top: 2),
-              color: Colors.white,
+              // color: Colors.white,
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -143,15 +142,15 @@ class Transaction extends StatelessWidget {
                   children: [
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 20, 100, 30),
-                      child: Text("Click on TSN for Details", style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text("Click on TSN for Details", style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold)),
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 20, 0, 30),
-                      child: Text("Slips Cancelled: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text("Slips Cancelled: ", style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold)),
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 20, 0, 30),
-                      child: Text("0", style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text("0", style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold)),
                     )
                   ],
                 ),
@@ -161,25 +160,25 @@ class Transaction extends StatelessWidget {
                   columnSpacing: 70.0,
                   columns: <DataColumn>[
                     DataColumn(
-                      label: Text('Transaction ID', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      label: Text('Transaction ID', style: TextStyle(color:Colors.white,fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                     DataColumn(
-                      label: Text('TSN', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      label: Text('TSN', style: TextStyle(color:Colors.white,fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                     DataColumn(
-                      label: Text('GAME', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      label: Text('GAME', style: TextStyle(color:Colors.white,fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                     DataColumn(
-                      label: Text('Game Date Time', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      label: Text('Game Date Time', style: TextStyle(color:Colors.white,fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                     DataColumn(
-                      label: Text('Slip Date Time', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      label: Text('Slip Date Time', style: TextStyle(color:Colors.white,fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                     DataColumn(
-                      label: Text('Points', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      label: Text('Points', style: TextStyle(color:Colors.white,fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                     DataColumn(
-                      label: Text('Cancel', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      label: Text('Cancel', style: TextStyle(color:Colors.white,fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                   ],
                   rows: rows,
@@ -190,6 +189,7 @@ class Transaction extends StatelessWidget {
             )
           ),
       ),
+      )
     );
   }
 }

@@ -10,9 +10,10 @@ class Result_Display_Box extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
     return Container(
-      width: 210.0,
-      height: 38.0,
+      width: mediaQuery.size.width * 0.135,
+      height: mediaQuery.size.height * 0.05,
       margin: const EdgeInsets.fromLTRB(4.0, 2.0, 0.0, 0.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

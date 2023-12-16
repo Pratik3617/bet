@@ -11,12 +11,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
-class HomeBottom extends StatelessWidget {
+class HomeBottom extends StatefulWidget {
   final int GrandTotal;
   final String user;
   final Function(String transID, int endpoint) onDataChanged;
-
   const HomeBottom(
       {super.key,
       required this.GrandTotal,
@@ -24,7 +26,16 @@ class HomeBottom extends StatelessWidget {
       required this.onDataChanged});
 
   @override
+  _PrintingWidget createState() => _PrintingWidget();
+  
+}
+
+class _PrintingWidget extends State<HomeBottom>{
+   final pdf = pw.Document();
+  
+  @override
   Widget build(BuildContext context) {
+   
     final select = Provider.of<GameSelector>(context, listen: false);
     final GlobalKey _key = GlobalKey();
 
@@ -39,9 +50,11 @@ class HomeBottom extends StatelessWidget {
     select.timesValues.forEach((key, value) {
       if (value.selected == true) {
         selectedTimes +=
-            "${select.showNextDayTimes ? nextDayDate : formattedDate} $key \n";
+            "${select.showNextDayTimes ? nextDayDate : formattedDate} $key   ";
       }
     });
+
+    MediaQueryData mediaQuery = MediaQuery.of(context);
 
     return Container(
       alignment: Alignment.center,
@@ -55,7 +68,7 @@ class HomeBottom extends StatelessWidget {
               Visibility(
                 visible: !(select.selectedToday ?? false),
                 child: SizedBox(
-                  height: 40.0,
+                  height: mediaQuery.size.height * 0.04,
                   child: ElevatedButton(
                     onPressed: () {
                       select.todayClicked();
@@ -77,7 +90,7 @@ class HomeBottom extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: "SansSerif",
                             letterSpacing: 2.0,
-                            fontSize: 18.0)),
+                            fontSize: mediaQuery.size.width * 0.01)),
                   ),
                 ),
               ),
@@ -86,7 +99,7 @@ class HomeBottom extends StatelessWidget {
           Visibility(
             visible: select.selectedToday ?? false,
             child: SizedBox(
-              height: 40.0,
+              height: mediaQuery.size.height * 0.04,
               child: ElevatedButton(
                 onPressed: () {
                   select.nextDayClicked();
@@ -108,7 +121,7 @@ class HomeBottom extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: "SansSerif",
                         letterSpacing: 2.0,
-                        fontSize: 18.0)),
+                        fontSize: mediaQuery.size.width * 0.01)),
               ),
             ),
           ),
@@ -118,7 +131,7 @@ class HomeBottom extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 40.0,
+                  height: mediaQuery.size.height * 0.04,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ButtonStyle(
@@ -137,7 +150,7 @@ class HomeBottom extends StatelessWidget {
                     child: Text("Update Results",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18.0,
+                            fontSize: mediaQuery.size.width * 0.01,
                             fontFamily: "SansSerif")),
                   ),
                 )
@@ -150,7 +163,7 @@ class HomeBottom extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 40.0,
+                  height: mediaQuery.size.height * 0.04,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ButtonStyle(
@@ -169,7 +182,7 @@ class HomeBottom extends StatelessWidget {
                     child: Text("Cancel & Reprint",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18.0,
+                            fontSize: mediaQuery.size.width * 0.01,
                             fontFamily: "SansSerif")),
                   ),
                 )
@@ -182,7 +195,7 @@ class HomeBottom extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 40.0,
+                  height: mediaQuery.size.height * 0.04,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ButtonStyle(
@@ -201,7 +214,7 @@ class HomeBottom extends StatelessWidget {
                     child: Text("Reset All",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18.0,
+                            fontSize: mediaQuery.size.width * 0.01,
                             fontFamily: "SansSerif")),
                   ),
                 )
@@ -214,7 +227,7 @@ class HomeBottom extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 40.0,
+                  height: mediaQuery.size.height * 0.04,
                   child: ElevatedButton(
                     onPressed: () {
                       selectedCharacters.clear();
@@ -324,7 +337,7 @@ class HomeBottom extends StatelessWidget {
                                         ),
                                         SizedBox(height: 5),
                                         Text(
-                                          "${user}",
+                                          "${widget.user}",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -401,7 +414,7 @@ class HomeBottom extends StatelessWidget {
                                       height: 40.0,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          onDataChanged(txnId, totalPoints);
+                                          widget.onDataChanged(txnId, totalPoints);
                                           Navigator.of(context,
                                                   rootNavigator: true)
                                               .pop();
@@ -435,31 +448,16 @@ class HomeBottom extends StatelessWidget {
                                       height: 40.0,
                                       child: ElevatedButton(
                                         onPressed: () async {
-                                          // Convert the widget to an image
-                                          onDataChanged(txnId, totalPoints);
-                                          final boundary = _key.currentContext!
-                                                  .findRenderObject()
-                                              as RenderRepaintBoundary;
-                                          final image = await boundary.toImage(
-                                              pixelRatio: 3.0);
-                                          final byteData =
-                                              await image.toByteData(
-                                                  format:
-                                                      ui.ImageByteFormat.png);
+                                          widget.onDataChanged(txnId, totalPoints);
 
-                                          // Get the image data as Uint8List
-                                          final pngBytes =
-                                              byteData!.buffer.asUint8List();
+                                          await _generatePdf(txnId, slipDate, selectedTimes,selectedCharacters,totalPoints);
 
-                                          // Create a file name (optional)
-                                          final fileName = 'widget_image.png';
+                                          await Printing.layoutPdf(
+                                            onLayout: (PdfPageFormat format) async {
+                                              return pdf.save();
+                                            },
+                                          );
 
-                                          // Create a download link for the image
-                                          final anchor = html.AnchorElement(
-                                              href:
-                                                  'data:image/png;base64,${base64.encode(pngBytes)}')
-                                            ..setAttribute('download', fileName)
-                                            ..click();
                                           await select.postGameData(body);
                                         },
                                         style: ButtonStyle(
@@ -515,7 +513,7 @@ class HomeBottom extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.black,
                             fontFamily: "SansSerif",
-                            fontSize: 18.0)),
+                            fontSize: mediaQuery.size.width * 0.01)),
                   ),
                 ),
               ],
@@ -531,12 +529,12 @@ class HomeBottom extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: "SansSerif",
-                          fontSize: 18.0)),
+                          fontSize: mediaQuery.size.width * 0.01)),
                   SizedBox(
-                    width: 70.0,
-                    height: 35.0,
+                    width: mediaQuery.size.width * 0.04,
+                    height: mediaQuery.size.height * 0.04,
                     child: TextField(
-                      controller: TextEditingController(text: "$GrandTotal"),
+                      controller: TextEditingController(text: "${widget.GrandTotal}"),
                       keyboardType:
                           TextInputType.number, // Set keyboard type to numeric
                       inputFormatters: <TextInputFormatter>[
@@ -570,10 +568,10 @@ class HomeBottom extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 5.0),
                     child: SizedBox(
-                      width: 70.0,
-                      height: 35.0,
+                      width: mediaQuery.size.width * 0.04,
+                      height: mediaQuery.size.height * 0.04,
                       child: TextField(
-                        controller: TextEditingController(text: "$GrandTotal"),
+                        controller: TextEditingController(text: "${widget.GrandTotal}"),
                         keyboardType: TextInputType
                             .number, // Set keyboard type to numeric
                         inputFormatters: <TextInputFormatter>[
@@ -619,12 +617,12 @@ class HomeBottom extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: "SansSerif",
-                          fontSize: 18.0)),
+                          fontSize: mediaQuery.size.width * 0.01)),
                   SizedBox(
-                    width: 70.0,
-                    height: 35.0,
+                    width: mediaQuery.size.width * 0.04,
+                    height: mediaQuery.size.height * 0.04,
                     child: TextField(
-                      controller: TextEditingController(text: "$GrandTotal"),
+                      controller: TextEditingController(text: "${widget.GrandTotal}"),
                       keyboardType:
                           TextInputType.number, // Set keyboard type to numeric
                       inputFormatters: <TextInputFormatter>[
@@ -658,10 +656,10 @@ class HomeBottom extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 5.0),
                     child: SizedBox(
-                      width: 70.0,
-                      height: 35.0,
+                      width: mediaQuery.size.width * 0.04,
+                      height: mediaQuery.size.height * 0.04,
                       child: TextField(
-                        controller: TextEditingController(text: "$GrandTotal"),
+                        controller: TextEditingController(text: "${widget.GrandTotal}"),
                         keyboardType: TextInputType
                             .number, // Set keyboard type to numeric
                         inputFormatters: <TextInputFormatter>[
@@ -704,7 +702,7 @@ class HomeBottom extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'YoungSerif',
                     fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
+                    fontSize: mediaQuery.size.width * 0.02,
                     color: Color(0xFFF3FDE8),
                     letterSpacing: 2.0,
                   )),
@@ -712,6 +710,124 @@ class HomeBottom extends StatelessWidget {
           ),
         ],
       ),
+    );
+
+    
+  }
+  
+  Future<void> _generatePdf(String txnId, String slipDate, String selectedTimes,List<String> selectedCharacters, int totalPoints ) async {
+    pdf.addPage(
+      pw.Page(
+        // pageFormat: PdfPageFormat.letter.copyWith(width: 200),
+        build: (context) {
+          return pw.Center(
+            child: pw.Column(
+            // mainAxisAlignment: pw.MainAxisAlignment.center,
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text(
+                "N.1 GAMING",
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 18.0,
+                  color: PdfColors.black,
+                  letterSpacing: 2.0,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                "FOR AMUSEMENT ONLY",
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 18.0,
+                  color: PdfColors.black,
+                  letterSpacing: 2.0,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                "${widget.user}",
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 14.0,
+                  color: PdfColors.black,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                "ID : ${txnId}",
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 14.0,
+                  color: PdfColors.black,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                "Slip DT : ${slipDate}",
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 14.0,
+                  color: PdfColors.black,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                "Game Date : ",
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 14.0,
+                  color: PdfColors.black,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                selectedTimes,
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 14.0,
+                  color: PdfColors.black,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                selectedCharacters.join("  "),
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 14.0,
+                  color: PdfColors.black,
+                ),
+              ),
+              pw.SizedBox(height: 5),
+              pw.Text(
+                "Total Quantity : $totalPoints Total Points : $totalPoints",
+                style: pw.TextStyle(
+                  font: pw.Font.helveticaBold(),
+                  fontSize: 14.0,
+                  color: PdfColors.black,
+                ),
+              ),
+              
+              pw.SizedBox(height: 5),
+              _buildBarcodeWidget(txnId),
+              pw.SizedBox(height: 10),
+            ],
+          )
+            );
+        },
+      ),
+    );
+  }
+
+  pw.Widget _buildBarcodeWidget(String txnId) {
+    return pw.BarcodeWidget(
+      barcode: Barcode.code128(
+                              useCode128A: false,
+                              useCode128C:
+                                  false), // Barcode type and settings
+      data: txnId,
+      width: 300,
+      height: 50,
     );
   }
 }

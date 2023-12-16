@@ -291,6 +291,9 @@ class _QrCodeState extends State<Home> {
 
     final size = MediaQuery.of(context).size;
 
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+
+
     return MaterialApp(
       theme: ThemeData(
         appBarTheme: AppBarTheme(
@@ -302,12 +305,12 @@ class _QrCodeState extends State<Home> {
       home: Scaffold(
         appBar: AppBar(
           leading: SizedBox.shrink(),
-          toolbarHeight: 200.0,
+          toolbarHeight:  mediaQuery.size.height * 0.22,
           backgroundColor: Colors.blueGrey,
           actions: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,6 +319,8 @@ class _QrCodeState extends State<Home> {
                       builder: (context, value, child) {
                         return value.showTimes
                             ? Container(
+                              width:  mediaQuery.size.width * 0.81,
+                                height:  mediaQuery.size.height * 0.22,
                                 constraints:
                                     BoxConstraints(maxWidth: size.width * 0.81),
                                 child: Column(
@@ -326,7 +331,7 @@ class _QrCodeState extends State<Home> {
                                       children: [
                                         InputField(
                                             width: 400.0,
-                                            height: 28.0,
+                                            height:  mediaQuery.size.height * 0.03,
                                             fontSize: 16,
                                             decoration: BoxDecoration(
                                                 color: Colors.yellow.shade300),
@@ -375,7 +380,7 @@ class _QrCodeState extends State<Home> {
                                             }),
                                         Check_Button(
                                             width: 250.0,
-                                            height: 28.0,
+                                            height: mediaQuery.size.height * 0.03,
                                             isChecked: value.allTimesSelected,
                                             fontSize: 16,
                                             decoration: BoxDecoration(
@@ -417,7 +422,7 @@ class _QrCodeState extends State<Home> {
                                             }),
                                         CustomButton(
                                             width: 380.0,
-                                            height: 28.0,
+                                            height: mediaQuery.size.height * 0.03,
                                             text:
                                                 "Click here to clear all selection",
                                             decoration: BoxDecoration(
@@ -432,7 +437,7 @@ class _QrCodeState extends State<Home> {
                                             }),
                                         CustomButton(
                                             width: 100.0,
-                                            height: 28.0,
+                                            height: mediaQuery.size.height * 0.03,
                                             decoration: BoxDecoration(
                                                 color: Colors.red),
                                             text: "Close",
@@ -449,7 +454,7 @@ class _QrCodeState extends State<Home> {
                                             i++) ...[
                                           Check_Button(
                                               width: 117,
-                                              height: 30.0,
+                                              height: mediaQuery.size.height * 0.03,
                                               fontSize: 16,
                                               isChecked: value
                                                           .timesValues[
@@ -517,8 +522,8 @@ class _QrCodeState extends State<Home> {
                                                 margin:
                                                     const EdgeInsets.fromLTRB(
                                                         0.0, 0.0, 0.0, 5.0),
-                                                width: 250.0,
-                                                height: 40.0,
+                                                width: mediaQuery.size.width * 0.17,
+                                                height: mediaQuery.size.height * 0.05,
                                                 decoration: BoxDecoration(
                                                   color: Colors.yellow[600],
                                                   borderRadius:
@@ -555,8 +560,8 @@ class _QrCodeState extends State<Home> {
                                                       horizontal: 5.0),
                                               margin: const EdgeInsets.fromLTRB(
                                                   0.0, 5.0, 0.0, 0.0),
-                                              width: 250.0,
-                                              height: 40.0,
+                                              width: mediaQuery.size.width * 0.17,
+                                              height: mediaQuery.size.height * 0.05,
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -578,7 +583,7 @@ class _QrCodeState extends State<Home> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(width: 350),
+                                  SizedBox(width: mediaQuery.size.width * 0.22),
                                   const Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -605,8 +610,8 @@ class _QrCodeState extends State<Home> {
                         Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 5.0, vertical: 2.0),
-                          width: 250.0,
-                          height: 40.0,
+                          width: mediaQuery.size.width * 0.17,
+                          height: mediaQuery.size.height * 0.05,
                           decoration: BoxDecoration(
                             color: Colors.yellow[600],
                             borderRadius: BorderRadius.circular(5.0),
@@ -633,8 +638,8 @@ class _QrCodeState extends State<Home> {
                         Container(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 3.0, horizontal: 5.0),
-                            width: 250.0,
-                            height: 40.0,
+                            width: mediaQuery.size.width * 0.17,
+                            height: mediaQuery.size.height * 0.05,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5.0),
                                 color: Colors.white,
@@ -659,7 +664,8 @@ class _QrCodeState extends State<Home> {
           ],
         ),
         body: Container(
-          padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 5.0),
+          width: mediaQuery.size.width,
+          padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 2.0),
           color: Colors.blueGrey,
           child: Column(
             children: [
@@ -705,15 +711,7 @@ class _QrCodeState extends State<Home> {
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: Button_G(
-                                text: "CHANGE PASSWORD", onPressed: () {}),
-                          ),
-                        ],
-                      ),
+                      
                     ],
                   ),
                   Row(
@@ -820,6 +818,7 @@ class _QrCodeState extends State<Home> {
                 ],
               ),
               Container(
+                width: mediaQuery.size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

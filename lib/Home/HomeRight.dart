@@ -38,12 +38,14 @@ class HomeRightState extends State<HomeRight> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          width: 210.0,
-          height: 40.0,
+          width: mediaQuery.size.width * 0.135,
+          height: mediaQuery.size.height * 0.05,
           margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
           decoration: BoxDecoration(
             color: Colors.green,
@@ -72,16 +74,17 @@ class HomeRightState extends State<HomeRight> {
           ),
         ),
         Container(
-          width: 210.0,
-          height: 38.0,
-          margin: const EdgeInsets.fromLTRB(4.0, 2.0, 0.0, 0.0),
+          width: mediaQuery.size.width * 0.137,
+          height: mediaQuery.size.height * 0.05,
+          margin: const EdgeInsets.fromLTRB(6.0, 2.0, 0.0, 0.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 210.0,
+                width: mediaQuery.size.width * 0.135,
+        
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(2.0),

@@ -90,10 +90,11 @@ class _updatePoints extends State<HomeMiddleTwo> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       Container(
-        width: 150.0,
-        height: 40.0,
+        width: mediaQuery.size.width * 0.1,
+        height: mediaQuery.size.height * 0.05,
         margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
         decoration: BoxDecoration(
           color: Colors.yellow[600],

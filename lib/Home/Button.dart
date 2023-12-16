@@ -13,6 +13,8 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+
     return Container(
       padding: EdgeInsets.fromLTRB(4.0, 0.0, 0.0, 2.0),
       child: Column(
@@ -24,8 +26,8 @@ class Button extends StatelessWidget {
             children: [
 
               SizedBox(
-                width: 50.0,
-                height: 32.0,
+                width: mediaQuery.size.width * 0.0325,
+                height: mediaQuery.size.height * 0.041,
                 child: TextField(
                   controller: controller,
                   decoration: InputDecoration(

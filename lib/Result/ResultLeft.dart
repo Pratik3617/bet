@@ -35,15 +35,18 @@ class _Left extends State<ResultLeft>{
 
   @override
   Widget build(BuildContext context){
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text("N.1 GAMING", style: TextStyle(
           fontFamily: 'YoungSerif',
           fontWeight: FontWeight.bold,
-          fontSize: 40.0,
+          fontSize: mediaQuery.size.width * 0.025,
           color: Color(0xFFF3FDE8),
           letterSpacing: 2.0,
+          
         ),),
 
         ResultDateForm(),

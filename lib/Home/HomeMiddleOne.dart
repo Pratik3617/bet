@@ -110,7 +110,9 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
     final select = Provider.of<GameSelector>(context, listen: false);
+    
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -122,8 +124,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    width: 145.0,
-                    height: 40.0,
+                    width: mediaQuery.size.width * 0.1,
+                    height: mediaQuery.size.height * 0.05,
                     margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -158,8 +160,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    width: 145.0,
-                    height: 40.0,
+                    width: mediaQuery.size.width * 0.1,
+                    height: mediaQuery.size.height * 0.05,
                     margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -194,8 +196,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  width: 240.0,
-                  height: 40.0,
+                  width: mediaQuery.size.width * 0.17,
+                  height: mediaQuery.size.height * 0.05,
                   margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.white, width: 2.0),
@@ -204,6 +206,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
+                        width: mediaQuery.size.width * 0.05,
                           child: Padding(
                         padding: const EdgeInsets.fromLTRB(0.0, 2.0, 7.0, 2.0),
                         child: Row(
@@ -228,6 +231,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                         ),
                       )),
                       Container(
+                          width: mediaQuery.size.width * 0.06,
                           child: Padding(
                         padding: const EdgeInsets.fromLTRB(0.0, 2.0, 7.0, 2.0),
                         child: Row(
@@ -252,6 +256,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                         ),
                       )),
                       Container(
+                        width: mediaQuery.size.width * 0.05,
                           child: Padding(
                         padding: const EdgeInsets.fromLTRB(0.0, 2.0, 7.0, 2.0),
                         child: Row(
@@ -284,8 +289,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    width: 150.0,
-                    height: 40.0,
+                    width: mediaQuery.size.width * 0.1,
+                    height: mediaQuery.size.height * 0.05,
                     margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -313,8 +318,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  width: 120.0,
-                  height: 40.0,
+                  width: mediaQuery.size.width * 0.07,
+                  height: mediaQuery.size.height * 0.05,
                   margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -324,8 +329,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 60.0,
-                        height: 40.0,
+                        width: mediaQuery.size.width * 0.03,
+                        height: mediaQuery.size.height * 0.05,
                         child: TextField(
                           controller: select.lpController,
                           onChanged: (v) {
@@ -364,8 +369,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                         ),
                       ),
                       Container(
-                        width: 56.0,
-                        height: 40.0,
+                        width: mediaQuery.size.width * 0.03,
+                        height: mediaQuery.size.height * 0.05,
                         alignment: Alignment.center,
                         child: const Text(
                           "LP",
@@ -385,8 +390,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    width: 100.0,
-                    height: 40.0,
+                    width: mediaQuery.size.width * 0.045,
+                    height: mediaQuery.size.height * 0.05,
                     margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -427,8 +432,8 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               Row(
                 children: List.generate(11, (j) {
                   if (j == 0) {
-                    return const SizedBox(
-                        width: 75); // to adjust the layout alignment
+                    return SizedBox(
+                        width: mediaQuery.size.width * 0.051); // to adjust the layout alignment
                   }
                   return Container(
                     margin: const EdgeInsets.fromLTRB(13, 3, 17, 3),
