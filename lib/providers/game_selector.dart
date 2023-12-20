@@ -342,6 +342,9 @@ class GameSelector with ChangeNotifier {
   }
 
   void todayClicked() {
+    for (var element in times) {
+      timesValues[element]!.selected = false;
+    }
     showTimes = true;
     selectedToday = true;
     showNextDayTimes = false;
@@ -349,6 +352,9 @@ class GameSelector with ChangeNotifier {
   }
 
   void nextDayClicked() {
+    for (var element in times) {
+      timesValues[element]!.selected = false;
+    }
     showTimes = true;
     showNextDayTimes = true;
     selectedToday = null;
