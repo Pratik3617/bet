@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:bet/Home.dart';
-import 'package:bet/Home/HomeMiddleOne.dart';
+
 import 'package:bet/providers/game_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -483,6 +482,7 @@ class _PrintingWidget extends State<HomeBottom>{
 
                                     
                                           await select.postGameData(body);
+                                          
                                           Navigator.of(context,
                                                   rootNavigator: true)
                                               .pop();
