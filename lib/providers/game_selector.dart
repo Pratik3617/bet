@@ -29,7 +29,7 @@ class GameSelector with ChangeNotifier {
   postGameData(dynamic body) async {
     var headers = {'Content-Type': 'application/json'};
     body = jsonEncode(body);
-    http.Response r = await http.post(Uri.parse("ENTER YOUR URL HERE"),
+    http.Response r = await http.post(Uri.parse("http://127.0.0.1:8000/saveTransaction"),
         headers: headers, body: body);
 
     return r.statusCode;
