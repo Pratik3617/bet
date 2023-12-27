@@ -14,7 +14,7 @@ class Head_Input extends StatelessWidget {
         textAlign: TextAlign.start,
         controller: controller,
         style: TextStyle(
-            fontSize: 16.0, color: Colors.white, fontFamily: "SanSerif"),
+            fontSize: 14.0, color: Colors.white, fontFamily: "SanSerif"),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 5),
           filled: true,

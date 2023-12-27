@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class User {
   final String username;
@@ -11,8 +12,33 @@ class UserProvider extends ChangeNotifier {
 
   User? get user => _user;
 
-  void setUser(String username) {
+  bool get isAuthenticated => _user != null;
+
+  Future<void> setUser(String username) async {
     _user = User(username: username);
     notifyListeners();
+
+    // Save user data to shared preferences
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', username);
+  }
+
+  Future<void> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
+
+    if (username != null) {
+      _user = User(username: username);
+      notifyListeners();
+    }
+  }
+
+  void logout() async {
+    _user = null;
+    notifyListeners();
+
+    // Remove user data from shared preferences
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('username');
   }
 }

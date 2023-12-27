@@ -10,9 +10,13 @@ class HomeMiddleOne extends StatefulWidget {
     super.key,
     required this.matrixControllers,
     required this.context,
+    required this.rowControllers,
+    required this.columnControllers,
   });
   final List<List<TextEditingController>> matrixControllers;
   final BuildContext context;
+  final List<TextEditingController> rowControllers;
+  final List<TextEditingController> columnControllers;
 
   @override
   RandomNumberGenerator createState() =>
@@ -21,12 +25,12 @@ class HomeMiddleOne extends StatefulWidget {
 
 class RandomNumberGenerator extends State<HomeMiddleOne> {
   final BuildContext context;
-  final List<TextEditingController> rowControllers =
-      List.generate(10, (index) => TextEditingController());
-  final List<TextEditingController> columnControllers =
-      List.generate(10, (index) => TextEditingController());
+  // final List<TextEditingController> rowControllers =
+  //     List.generate(10, (index) => TextEditingController());
+  // final List<TextEditingController> columnControllers =
+  //     List.generate(10, (index) => TextEditingController());
 
-  // final List<List<TextEditingController>> matrixControllers = List.generate(10, (i) => List.generate(10, (j) => TextEditingController()));
+
   RandomNumberGenerator({required this.context});
 
   @override
@@ -34,11 +38,11 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
     super.initState();
 
     for (int i = 0; i < 10; i++) {
-      rowControllers[i].addListener(() {
+      widget.rowControllers[i].addListener(() {
         _updateMatrixForRow(i);
       });
 
-      columnControllers[i].addListener(() {
+      widget.columnControllers[i].addListener(() {
         _updateMatrixForColumn(i);
       });
     }
@@ -57,56 +61,51 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
   }
 
   _updateMatrixForRow(int rowIndex) {
-    final c = Provider.of<GameSelector>(context, listen: false);
-    for (int j = 0; j < 10; j++) {
-      if (c.evenIsChecked) {
-        if (j % 2 == 0) {
-          widget.matrixControllers[rowIndex][j].text =
-              ((int.tryParse(rowControllers[rowIndex].text) ?? 0) +
-                      (int.tryParse(columnControllers[j].text) ?? 0))
-                  .toString();
-        }
-      } else if (c.oddIsChecked) {
-        if (j % 2 != 0) {
-          widget.matrixControllers[rowIndex][j].text =
-              ((int.tryParse(rowControllers[rowIndex].text) ?? 0) +
-                      (int.tryParse(columnControllers[j].text) ?? 0))
-                  .toString();
-        }
-      } else {
-        widget.matrixControllers[rowIndex][j].text =
-            ((int.tryParse(rowControllers[rowIndex].text) ?? 0) +
-                    (int.tryParse(columnControllers[j].text) ?? 0))
-                .toString();
+  final c = Provider.of<GameSelector>(context, listen: false);
+  for (int j = 0; j < 10; j++) {
+    if (c.evenIsChecked) {
+      if (j % 2 == 0) {
+        int sum = (int.tryParse(widget.rowControllers[rowIndex].text) ?? 0) +
+            (int.tryParse(widget.columnControllers[j].text) ?? 0);
+        widget.matrixControllers[rowIndex][j].text = (sum != 0) ? sum.toString() : "";
       }
+    } else if (c.oddIsChecked) {
+      if (j % 2 != 0) {
+        int sum = (int.tryParse(widget.rowControllers[rowIndex].text) ?? 0) +
+            (int.tryParse(widget.columnControllers[j].text) ?? 0);
+        widget.matrixControllers[rowIndex][j].text = (sum != 0) ? sum.toString() : "";
+      }
+    } else {
+      int sum = (int.tryParse(widget.rowControllers[rowIndex].text) ?? 0) +
+          (int.tryParse(widget.columnControllers[j].text) ?? 0);
+      widget.matrixControllers[rowIndex][j].text = (sum != 0) ? sum.toString() : "";
     }
   }
+}
 
-  _updateMatrixForColumn(int columnIndex) {
-    final c = Provider.of<GameSelector>(context, listen: false);
-    for (int i = 0; i < 10; i++) {
-      if (c.evenIsChecked) {
-        if (i % 2 == 0) {
-          widget.matrixControllers[i][columnIndex].text =
-              ((int.tryParse(rowControllers[i].text) ?? 0) +
-                      (int.tryParse(columnControllers[columnIndex].text) ?? 0))
-                  .toString();
-        }
-      } else if (c.oddIsChecked) {
-        if (i % 2 != 0) {
-          widget.matrixControllers[i][columnIndex].text =
-              ((int.tryParse(rowControllers[i].text) ?? 0) +
-                      (int.tryParse(columnControllers[columnIndex].text) ?? 0))
-                  .toString();
-        }
-      } else {
-        widget.matrixControllers[i][columnIndex].text =
-            ((int.tryParse(rowControllers[i].text) ?? 0) +
-                    (int.tryParse(columnControllers[columnIndex].text) ?? 0))
-                .toString();
+_updateMatrixForColumn(int columnIndex) {
+  final c = Provider.of<GameSelector>(context, listen: false);
+  for (int i = 0; i < 10; i++) {
+    if (c.evenIsChecked) {
+      if (i % 2 == 0) {
+        int sum = (int.tryParse(widget.rowControllers[i].text) ?? 0) +
+            (int.tryParse(widget.columnControllers[columnIndex].text) ?? 0);
+        widget.matrixControllers[i][columnIndex].text = (sum != 0) ? sum.toString() : "";
       }
+    } else if (c.oddIsChecked) {
+      if (i % 2 != 0) {
+        int sum = (int.tryParse(widget.rowControllers[i].text) ?? 0) +
+            (int.tryParse(widget.columnControllers[columnIndex].text) ?? 0);
+        widget.matrixControllers[i][columnIndex].text = (sum != 0) ? sum.toString() : "";
+      }
+    } else {
+      int sum = (int.tryParse(widget.rowControllers[i].text) ?? 0) +
+          (int.tryParse(widget.columnControllers[columnIndex].text) ?? 0);
+      widget.matrixControllers[i][columnIndex].text = (sum != 0) ? sum.toString() : "";
     }
   }
+}
+  
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +123,9 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    width: mediaQuery.size.width * 0.1,
+                    width: mediaQuery.size.width * 0.09,
                     height: mediaQuery.size.height * 0.05,
-                    margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
+                    margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: Colors.yellow, width: 2.0),
@@ -160,7 +159,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    width: mediaQuery.size.width * 0.1,
+                    width: mediaQuery.size.width * 0.09,
                     height: mediaQuery.size.height * 0.05,
                     margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 0.0),
                     decoration: BoxDecoration(
@@ -438,7 +437,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                   return Container(
                     margin: const EdgeInsets.fromLTRB(13, 3, 17, 3),
                     child: Button(
-                      controller: columnControllers[j - 1],
+                      controller: widget.columnControllers[j - 1],
                     ),
                   );
                 }),
@@ -450,7 +449,7 @@ class RandomNumberGenerator extends State<HomeMiddleOne> {
                       return Container(
                         margin: const EdgeInsets.fromLTRB(5, 3, 6, 3),
                         child: Button(
-                          controller: rowControllers[i],
+                          controller: widget.rowControllers[i],
                         ),
                       );
                     } else {

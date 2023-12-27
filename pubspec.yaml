@@ -50,6 +50,8 @@ dev_dependencies:
   flutter_barcode_listener: ^0.1.4
   printing: ^5.11.1
   pdf: ^3.10.7
+  shared_preferences: ^2.2.2
+  get: ^4.6.6
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

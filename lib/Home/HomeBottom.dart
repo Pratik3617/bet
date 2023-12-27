@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:convert';
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:universal_html/html.dart' as html;
-import 'dart:typed_data';
-import 'dart:ui' as ui;
+import 'package:bet/Home.dart';
+import 'package:bet/Home/HomeMiddleOne.dart';
 import 'package:bet/providers/game_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -14,15 +12,17 @@ import 'package:provider/provider.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeBottom extends StatefulWidget {
+
   final int GrandTotal;
-  final String user;
+  final VoidCallback onButtonPressed;
   final Function(String transID, int endpoint) onDataChanged;
   const HomeBottom(
       {super.key,
       required this.GrandTotal,
-      required this.user,
+      required this.onButtonPressed,
       required this.onDataChanged});
 
   @override
@@ -31,7 +31,24 @@ class HomeBottom extends StatefulWidget {
 }
 
 class _PrintingWidget extends State<HomeBottom>{
-   final pdf = pw.Document();
+
+  // GlobalKey<_PrintingWidget> homePageKey = GlobalKey<_PrintingWidget>();
+  
+  late SharedPreferences loginData;
+  String? userName;
+
+  void initial() async {
+    loginData = await SharedPreferences.getInstance();
+    setState((){
+        userName = loginData.getString('username');
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -50,7 +67,7 @@ class _PrintingWidget extends State<HomeBottom>{
     select.timesValues.forEach((key, value) {
       if (value.selected == true) {
         selectedTimes +=
-            "${select.showNextDayTimes ? nextDayDate : formattedDate} $key   ";
+            "${select.showNextDayTimes ? nextDayDate : formattedDate} $key,";
       }
     });
 
@@ -197,7 +214,12 @@ class _PrintingWidget extends State<HomeBottom>{
                 SizedBox(
                   height: mediaQuery.size.height * 0.04,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed:(){
+                      widget.onButtonPressed();
+                      Provider.of<GameSelector>(context, listen: false).resetTimes();
+                      Provider.of<GameSelector>(context, listen: false).resetCheckBox();
+                      Provider.of<GameSelector>(context, listen: false).resetMatrixData();
+                    },
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),
@@ -259,6 +281,8 @@ class _PrintingWidget extends State<HomeBottom>{
                         }
                       }
 
+                      
+
                       for (int i = 0; i < 20; i++) {
                         for (int j = 0; j < 10; j++) {
                           for (int k = 0; k < 10; k++) {
@@ -278,9 +302,9 @@ class _PrintingWidget extends State<HomeBottom>{
                           .format(DateTime.now());
 
                       final body = {
-                        "username": "prince",
+                        "username": "${userName}",
                         "transaction_id": txnId,
-                        "gamedate_times": selectedTimes.split("\n"),
+                        "gamedate_times": selectedTimes.split(",").map((time) => time.trim()).where((time) => time.isNotEmpty).toList(),
                         "slipdate_time": slipDate,
                         "points": totalPoints.toString(),
                         "GamePlay": selectedCharacters
@@ -337,7 +361,7 @@ class _PrintingWidget extends State<HomeBottom>{
                                         ),
                                         SizedBox(height: 5),
                                         Text(
-                                          "${widget.user}",
+                                          "${userName?.toUpperCase()}",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -414,7 +438,7 @@ class _PrintingWidget extends State<HomeBottom>{
                                       height: 40.0,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          widget.onDataChanged(txnId, totalPoints);
+                                          // widget.onDataChanged(txnId, totalPoints);
                                           Navigator.of(context,
                                                   rootNavigator: true)
                                               .pop();
@@ -450,15 +474,18 @@ class _PrintingWidget extends State<HomeBottom>{
                                         onPressed: () async {
                                           widget.onDataChanged(txnId, totalPoints);
 
+                                          widget.onButtonPressed();
+                                          Provider.of<GameSelector>(context, listen: false).resetTimes();
+                                          Provider.of<GameSelector>(context, listen: false).resetCheckBox();
+                                          Provider.of<GameSelector>(context, listen: false).resetMatrixData();
+
                                           await _generatePdf(txnId, slipDate, selectedTimes,selectedCharacters,totalPoints);
 
-                                          await Printing.layoutPdf(
-                                            onLayout: (PdfPageFormat format) async {
-                                              return pdf.save();
-                                            },
-                                          );
-
+                                    
                                           await select.postGameData(body);
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:
@@ -716,6 +743,7 @@ class _PrintingWidget extends State<HomeBottom>{
   }
   
   Future<void> _generatePdf(String txnId, String slipDate, String selectedTimes,List<String> selectedCharacters, int totalPoints ) async {
+    final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
         // pageFormat: PdfPageFormat.letter.copyWith(width: 200),
@@ -746,7 +774,7 @@ class _PrintingWidget extends State<HomeBottom>{
               ),
               pw.SizedBox(height: 5),
               pw.Text(
-                "${widget.user}",
+                "${userName?.toUpperCase()}",
                 style: pw.TextStyle(
                   font: pw.Font.helveticaBold(),
                   fontSize: 14.0,
@@ -816,6 +844,12 @@ class _PrintingWidget extends State<HomeBottom>{
             );
         },
       ),
+    );
+
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async {
+        return pdf.save();
+      },
     );
   }
 

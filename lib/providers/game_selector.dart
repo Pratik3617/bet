@@ -27,7 +27,6 @@ class GameSelector with ChangeNotifier {
   }
 
   postGameData(dynamic body) async {
-    print(body);
     var headers = {'Content-Type': 'application/json'};
     body = jsonEncode(body);
     http.Response r = await http.post(Uri.parse("ENTER YOUR URL HERE"),
@@ -342,6 +341,9 @@ class GameSelector with ChangeNotifier {
   }
 
   void todayClicked() {
+    for (var element in times) {
+      timesValues[element]!.selected = false;
+    }
     showTimes = true;
     selectedToday = true;
     showNextDayTimes = false;
@@ -349,6 +351,9 @@ class GameSelector with ChangeNotifier {
   }
 
   void nextDayClicked() {
+    for (var element in times) {
+      timesValues[element]!.selected = false;
+    }
     showTimes = true;
     showNextDayTimes = true;
     selectedToday = null;
@@ -575,6 +580,90 @@ class GameSelector with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void resetTimes(){
+    // selectedToday = true;
+    showTimes = false;
+    showNextDayTimes = false;
+    selectedToday = null;
+
+    timesValues = {
+      "09:30 AM": TimeState(active: true, selected: false),
+      "09:45 AM": TimeState(active: true, selected: false),
+      "10:00 AM": TimeState(active: true, selected: false),
+      "10:15 AM": TimeState(active: true, selected: false),
+      "10:30 AM": TimeState(active: true, selected: false),
+      "10:45 AM": TimeState(active: true, selected: false),
+      "11:00 AM": TimeState(active: true, selected: false),
+      "11:15 AM": TimeState(active: true, selected: false),
+      "11:30 AM": TimeState(active: true, selected: false),
+      "11:45 AM": TimeState(active: true, selected: false),
+      "12:00 PM": TimeState(active: true, selected: false),
+      "12:15 PM": TimeState(active: true, selected: false),
+      "12:30 PM": TimeState(active: true, selected: false),
+      "12:45 PM": TimeState(active: true, selected: false),
+      "01:00 PM": TimeState(active: true, selected: false),
+      "01:15 PM": TimeState(active: true, selected: false),
+      "01:30 PM": TimeState(active: true, selected: false),
+      "01:45 PM": TimeState(active: true, selected: false),
+      "02:00 PM": TimeState(active: true, selected: false),
+      "02:15 PM": TimeState(active: true, selected: false),
+      "02:30 PM": TimeState(active: true, selected: false),
+      "02:45 PM": TimeState(active: true, selected: false),
+      "03:00 PM": TimeState(active: true, selected: false),
+      "03:15 PM": TimeState(active: true, selected: false),
+      "03:30 PM": TimeState(active: true, selected: false),
+      "03:45 PM": TimeState(active: true, selected: false),
+      "04:00 PM": TimeState(active: true, selected: false),
+      "04:15 PM": TimeState(active: true, selected: false),
+      "04:30 PM": TimeState(active: true, selected: false),
+      "04:45 PM": TimeState(active: true, selected: false),
+      "05:00 PM": TimeState(active: true, selected: false),
+      "05:15 PM": TimeState(active: true, selected: false),
+      "05:30 PM": TimeState(active: true, selected: false),
+      "05:45 PM": TimeState(active: true, selected: false),
+      "06:00 PM": TimeState(active: true, selected: false),
+      "06:15 PM": TimeState(active: true, selected: false),
+      "06:30 PM": TimeState(active: true, selected: false),
+      "06:45 PM": TimeState(active: true, selected: false),
+      "07:00 PM": TimeState(active: true, selected: false),
+      "07:15 PM": TimeState(active: true, selected: false),
+      "07:30 PM": TimeState(active: true, selected: false),
+      "07:45 PM": TimeState(active: true, selected: false),
+      "08:00 PM": TimeState(active: true, selected: false),
+      "08:15 PM": TimeState(active: true, selected: false),
+      "08:30 PM": TimeState(active: true, selected: false),
+      "08:45 PM": TimeState(active: true, selected: false),
+      "09:00 PM": TimeState(active: true, selected: false),
+      "09:15 PM": TimeState(active: true, selected: false),
+      "09:30 PM": TimeState(active: true, selected: false),
+      "09:45 PM": TimeState(active: true, selected: false),
+      "10:00 PM": TimeState(active: true, selected: false)
+    };
+    notifyListeners();
+  }
+
+void resetMatrixData() {
+    for (int i = 0; i < matrixList.length; i++) {
+      for (int j = 0; j < matrixList[i].length; j++) {
+        for (int k = 0; k < matrixList[i][j].length; k++) {
+          matrixList[i][j][k] = "";
+        }
+      }
+    }
+
+    // Notify listeners that the data has changed
+    notifyListeners();
+  }
+
+  void resetCheckBox(){
+    atIsChecked = false;
+    ajIsChecked = false;
+    ktIsChecked = false;
+    notifyListeners();
+  }
+
+
 }
 
 enum SelectionType { SINGLE, ATOT, ATOJ, KTOT }

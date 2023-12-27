@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:bet/API/Credit.dart';
+import 'package:bet/API/TransactionApi.dart';
 import 'package:bet/Home/Check_Button.dart';
 import 'package:bet/Home/CustomButton.dart';
-import 'package:bet/Home/Input_Box.dart';
 import 'package:bet/Result.dart';
-import 'package:bet/TransactionList/Transaction.dart';
+import 'package:bet/providers/TransactionListProvider.dart';
 import 'package:bet/providers/game_selector.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -21,6 +22,7 @@ import './API/ShowResultAPI.dart';
 import 'package:bet/providers/ShowResult.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final TextStyle customTextStyle = TextStyle(
   fontFamily: 'SansSerif',
@@ -28,14 +30,26 @@ final TextStyle customTextStyle = TextStyle(
   fontWeight: FontWeight.normal,
 );
 
-class Home extends StatefulWidget {
-  const Home({super.key});
 
+class Home extends StatefulWidget {
+  Home({Key? key}) : super(key: key);
   @override
   _QrCodeState createState() => _QrCodeState();
 }
 
 class _QrCodeState extends State<Home> {
+
+  final List<TextEditingController> rowControllers =
+      List.generate(10, (index) => TextEditingController());
+  final List<TextEditingController> columnControllers =
+      List.generate(10, (index) => TextEditingController());
+
+  
+  late SharedPreferences loginData;
+  late SharedPreferences creditData;
+  String? userName;
+  String? credit;
+
   int GrandTotal = 0;
   late Timer _timer;
   late Timer _timer2;
@@ -44,12 +58,34 @@ class _QrCodeState extends State<Home> {
   String transId = "";
   int endpoints = 0;
 
+  void clearControllers() {
+    for (var controller in rowControllers) {
+      controller.text = "";
+    }
+
+    for (var controller in columnControllers) {
+      controller.text = "";
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
     _startTimer();
     _startTimerFor15Min();
+    initial();
   }
+
+  void initial() async {
+    loginData = await SharedPreferences.getInstance();
+    creditData = await SharedPreferences.getInstance();
+    setState((){
+        userName = loginData.getString('username');
+        credit = creditData.getString('credit');
+    });
+  }
+  
 
   //next game timings
   List<String> times = [
@@ -223,6 +259,30 @@ class _QrCodeState extends State<Home> {
     }
   }
 
+  void fetchCreditData(String username) async {
+    try {
+      double creditvalue = await fetchCredit(username);
+      print(credit);
+      setState((){
+        creditData.setString("credit", creditvalue.toString());
+        credit = creditData.getString('credit');
+    });
+      
+    } catch (e) {
+      print('Error fetching credit data: $e');
+    }
+  }
+
+  void updateCredit() async{
+    loginData = await SharedPreferences.getInstance();
+    creditData = await SharedPreferences.getInstance();
+    setState((){
+        userName = loginData.getString('username');
+        credit = creditData.getString('credit');
+    });
+  }
+  
+
   void updateData(String id, int total) {
     setState(() {
       transId = id;
@@ -275,7 +335,6 @@ class _QrCodeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _editingController = TextEditingController(text: "");
     DateTime now1 = DateTime.now();
     String formattedDate = "${now1.day}-${now1.month}-${now1.year}";
     String formattedTime = "${now1.hour}:${now1.minute}:${now1.second}";
@@ -530,16 +589,17 @@ class _QrCodeState extends State<Home> {
                                                       BorderRadius.circular(
                                                           5.0),
                                                 ),
-                                                child: Center(
+                                                child:
+                                                Center(
                                                   child: Text(
-                                                    "Terminal Name - ${userProvider.user?.username.toUpperCase() ?? ''}",
+                                                    "Terminal Name - ${userName?.toUpperCase()}",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily: "SansSerif",
                                                       fontSize: 15,
                                                     ),
                                                   ),
-                                                ),
+                                                ) 
                                               ),
                                             ],
                                           );
@@ -624,9 +684,11 @@ class _QrCodeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Credits - 9012.33", style: customTextStyle),
+                            Text("Credits - $credit", style: customTextStyle),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                fetchCreditData(userName??"");
+                              },
                               icon: const Icon(
                                 Icons.refresh_outlined,
                                 size: 25.0,
@@ -693,7 +755,11 @@ class _QrCodeState extends State<Home> {
                             padding: EdgeInsets.all(5.0),
                             child: Button_G(
                                 text: "TRANS. LIST",
-                                onPressed: () {
+                                onPressed: () async{
+                                  TransactionProvider transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
+
+                                  await fetchTransactionList(userName??"", transactionProvider);
+                                
                                   Navigator.of(context)
                                       .pushNamed("/transaction");
                                 }),
@@ -803,11 +869,17 @@ class _QrCodeState extends State<Home> {
                                     ),
                                   );
                                 }),
-                                Button_G(
-                                    text: "REDEEM",
-                                    onPressed: () {
-                                      _showModal(context);
-                                    }),
+                                Consumer<GameSelector>(
+                                    builder: (context, value, child) {
+                                      return
+                                        Button_G(
+                                        text: "REDEEM",
+                                        onPressed: () {
+                                          print(value.barcodeController.text);
+                                          _showModal(context);
+                                        });
+                                    }
+                                )
                               ],
                             ),
                           )
@@ -827,6 +899,8 @@ class _QrCodeState extends State<Home> {
                     Consumer<GameSelector>(
                       builder: (context, value, child) {
                         return HomeMiddleOne(
+                          rowControllers: rowControllers,
+                          columnControllers: columnControllers,
                           matrixControllers: value.controllers,
                           context: context,
                         );
@@ -844,11 +918,12 @@ class _QrCodeState extends State<Home> {
                   ],
                 ),
               ),
-              Consumer<UserProvider>(builder: (context, userProvider, child) {
+              Consumer2<UserProvider,GameSelector>(builder: (context, userProvider,gameSelector, child) {
                 return HomeBottom(
+                    onButtonPressed: clearControllers,
                     GrandTotal: GrandTotal,
                     onDataChanged: updateData,
-                    user: userProvider.user?.username.toUpperCase() ?? '');
+                    );
               })
             ],
           ),
